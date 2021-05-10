@@ -1,6 +1,12 @@
-# MySQL performance training (individual) + 13.01. - 15.01.2021 
+# MariaDB Performance Training (deutsch)  
 
 ## Agenda 
+
+  1. Performance - Aspekte der MariaDB - Architektur 
+     * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
+  
+
+## Agenda2 
 
   1. Performance related aspects of the MySQL architecture  
   
