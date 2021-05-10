@@ -7,6 +7,7 @@
      * [Storage Engines](storage-engines.md) 
      * [InnoDB - Struktur](/innodb/innodb-structure.md)
      * [InnoDB - Optimierung](/innodb/innodb.md) 
+     * [Query - Cache](/performance/query-cache.md)
   1. Installation
      * [Installation (Debian)](installation-debian.md)
   1. Administration 
@@ -19,9 +20,6 @@
 ## Agenda2 
 
   1. Performance related aspects of the MySQL architecture  
-  
-     * [Architecture Server (Steps)](/performance/mysql-server-architecture.md)
-     * [Query - Cache](/performance/query-cache.md)
      * [Views and performance](/performance/views.md) 
   
   1. Diagnosis and measurement of performance 
