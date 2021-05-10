@@ -12,6 +12,21 @@ Free buffers       7905
 1 row in set (0.00 sec)
 ```
 
+```
+# OR: 
+MariaDB [(none)]> show status like '%free%';
++-------------------------------+---------+
+| Variable_name                 | Value   |
++-------------------------------+---------+
+| Innodb_buffer_pool_pages_free | 48083   |
+| Innodb_buffer_pool_wait_free  | 0       |
+| Innodb_ibuf_free_list         | 0       |
+| Qcache_free_blocks            | 1       |
+| Qcache_free_memory            | 1031304 |
++-------------------------------+---------+
+5 rows in set (0.002 sec)
+```
+
 ## Overview innodb server variables / settings 
 
   * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html
