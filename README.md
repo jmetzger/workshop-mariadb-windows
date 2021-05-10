@@ -5,6 +5,7 @@
   1. Performance - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
      * [Storage Engines](storage-engines.md) 
+     * [InnoDB - Struktur](/innodb/innodb-structure.md) 
   1. Installation
      * [Installation (Debian)](installation-debian.md)
   3. Dokumentation 
