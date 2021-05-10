@@ -12,6 +12,7 @@
   1. Administration 
      * [Show status](show-status.md)
      * [Show variables](show-variables.md)
+     * [systemctl - Server starten und stoppen](systemctl.md) 
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
