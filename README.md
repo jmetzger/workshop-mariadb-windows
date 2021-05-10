@@ -13,7 +13,7 @@
   1. Administration 
      * [Standard storage engine bestimmen](default-storage-engine.md)
      * [Show status](show-status.md)
-     * [Show variables](show-variables.md)
+     * [Server System Variablen - show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
