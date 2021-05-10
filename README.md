@@ -9,7 +9,9 @@
      * [InnoDB - Optimierung](/innodb/innodb.md) 
   1. Installation
      * [Installation (Debian)](installation-debian.md)
-  3. Dokumentation 
+  1. Administration 
+     * [Show status](show-status.md)
+  1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
 ## Agenda2 
