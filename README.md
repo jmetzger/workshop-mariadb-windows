@@ -15,6 +15,7 @@
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
+     * [User verwalten](user.md)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
