@@ -11,6 +11,7 @@
      * [Installation (Debian)](installation-debian.md)
   1. Administration 
      * [Show status](show-status.md)
+     * [Show variables](show-variables.md)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
