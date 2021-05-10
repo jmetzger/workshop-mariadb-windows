@@ -11,6 +11,7 @@
   1. Installation
      * [Installation (Debian)](installation-debian.md)
   1. Administration 
+     * [Standard storage engine bestimmen](default-storage-engine.md)
      * [Show status](show-status.md)
      * [Show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
