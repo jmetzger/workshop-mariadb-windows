@@ -16,6 +16,14 @@ sudo apt install mariadb-server
 
 ```
 
+## Check if running and enabled 
+
+```
+systemctl status mariadb 
+# enabled, wenn in Zeile 2 mariadb.service;enabled; auftaucht 
+```
+
+
 ## Secure installation 
 
 ```
