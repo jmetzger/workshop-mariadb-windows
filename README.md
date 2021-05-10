@@ -6,7 +6,7 @@
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
      * [Storage Engines](storage-engines.md) 
   1. Installation
-     * [Installation (Debian)](installation-debian-md)
+     * [Installation (Debian)](installation-debian.md)
   3. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
