@@ -2,8 +2,7 @@
 
 ## Defaults 
 
-  * mysql 5.7, query_cache is still compile into mysql, but disabled
-  * mysql 8, query cache not available anymore 
+  * Default Value: OFF (>= MariaDB 10.1.7), ON (<= MariaDB 10.1.6)
   
 ## Performance query cache 
 
