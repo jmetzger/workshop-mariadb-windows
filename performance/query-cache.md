@@ -76,3 +76,32 @@ mysql> flush status;
 Query OK, 0 rows affected (0.00 sec)
 
 ```
+
+## Warum die Verwendung des Query Cache schlecht 
+
+```
+TABELLE Mitarbeiter 
+Select * from Mitarbeiter -> query_cache
+Nächste abfrage. Select * from Mitarbeiter 
+-> aus query_cache
+Insert into Mitarbeiter 
+-> cache invalidiert -> kein Inhalt mehr
+Select * from Mitarbeiter -> query_cache 
+
+
+Mutex: 
+-> bei Benutzung gesperrt 
+
+// dadurch können Schreibanfragen nur quasi sequentiell
+A schreibt, B wartet bis a fertig ist, dann schreibt B
+
+Nur Zeilensperrung
+A schreibt, B schreibt auch, wenn nicht Genua die gleichen Zeile
+
+Query cache verhindert, dass mehre Kerne der CPU von MySQL verwendet werden können.
+
+-> lock-file im filesystem -> mutex -> mutual - exclusion.
+
+Ich mache ein Lock-file damit du weisst, dass ich gerade 
+Dran arbeite.
+```
