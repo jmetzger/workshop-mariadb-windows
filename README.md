@@ -14,20 +14,20 @@
      * [Installation (Debian)](installation-debian.md)
   1. Konfiguration 
      * [Slow query log](slow-query-log.md) 
-  3. Administration 
+  1. Administration 
      * [Standard storage engine bestimmen](default-storage-engine.md)
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
      * [User verwalten](user.md)
-  4. Tools 
+  1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
-  5. Beispieldaten
+  1. Beispieldaten
      * [Verleihdatenbank - sakila](sakila.md)
-  6. Managing big tables 
+  1. Managing big tables 
      * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
-  7. Dokumentation 
+  1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
 ## Agenda2 
