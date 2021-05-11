@@ -1,4 +1,4 @@
-# MariaDB Performance Training (deutsch)  
+# MariaDB Performance Training (deutsch)   
 
 ## Agenda 
 
