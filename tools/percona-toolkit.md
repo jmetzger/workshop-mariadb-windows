@@ -26,3 +26,7 @@ dpkg -i percona-release_latest.generic_all.deb
 apt update
 apt install -y percona-toolkit 
 ```
+
+```
+sudo apt update; sudo apt install -y wget gnupg2 lsb-release curl; cd /usr/src; wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb; dpkg -i percona-release_latest.generic_all.deb; apt update; apt install -y percona-toolkit 
+```
