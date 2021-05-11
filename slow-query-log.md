@@ -24,6 +24,16 @@ set session log_queries_not_using_indexes = 1
 
 ```
 
+## Bitte slow_query_log bei der ausgabe geschätziger zu sein
+
+```
+set global log_slow_verbosity = 'query_plan,explain'
+set session log_slow_verbosity = 'query_plan,explain'
+
+```
+
+
+
 ## Ref: 
 
  * https://mariadb.com/kb/en/slow-query-log-overview/
