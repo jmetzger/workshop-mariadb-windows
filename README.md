@@ -22,6 +22,7 @@
      * [User verwalten](user.md)
   4. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
+     * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
   5. Beispieldaten
      * [Verleihdatenbank - sakila](sakila.md)
   6. Managing big tables 
@@ -70,7 +71,7 @@
      * [Index and Functions (Cool new feature in MySQL 5.7)](index-and-functions.md) 
      * [Index and Likes](/indexes/like-index-not-index.md)
      * [Percona-toolkit](/tools/percona-toolkit.md) 
-     * [pt-query-digist - analyze slow logs](/tools/pt-query-digest.md) 
+     
      * [pt-online-schema-change howto](/tools/pt-online-schema-change.md)
      * [profiling-get-time-for-execution-of.query](/indexes/profiling.md) 
      * [Find out cardinality without index](/indexes/cardinality.md)
