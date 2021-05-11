@@ -20,6 +20,8 @@
      * [Server System Variablen - show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
      * [User verwalten](user.md)
+  1. Indexes 
+     * [Indexes](indexes.md)
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
