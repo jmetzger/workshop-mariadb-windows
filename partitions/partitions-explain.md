@@ -37,3 +37,6 @@ ALTER TABLE audit_log2 REORGANIZE PARTITION p_current INTO (
 EXPLAIN PARTITIONS SELECT * from audit_log2 WHERE yr = 2012 
 
 ```
+## Ref:
+
+  * https://mariadb.com/kb/en/partition-maintenance/
