@@ -20,7 +20,9 @@
      * [User verwalten](user.md)
   1. Beispieldaten
      * [Verleihdatenbank - sakila](sakila.md)
-  1. Dokumentation 
+  1. Managing big tables 
+     * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
+  3. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
 ## Agenda2 
