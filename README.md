@@ -12,19 +12,21 @@
      * [3-Phasen-Datengröße](3-phases-of-data-size-and-performance-impact.md)
   1. Installation
      * [Installation (Debian)](installation-debian.md)
-  1. Administration 
+  1. Konfiguration 
+     * [Slow query log](slow-query-log.md) 
+  3. Administration 
      * [Standard storage engine bestimmen](default-storage-engine.md)
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
      * [User verwalten](user.md)
-  1. Tools 
-     * [Percona Toolkit](/tools/percona-toolkit.md)  
-  1. Beispieldaten
+  4. Tools 
+     * [Percona Toolkit](/tools/percona-toolkit.md) 
+  5. Beispieldaten
      * [Verleihdatenbank - sakila](sakila.md)
-  1. Managing big tables 
+  6. Managing big tables 
      * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
-  1. Dokumentation 
+  7. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
 
 ## Agenda2 
