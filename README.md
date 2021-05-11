@@ -21,7 +21,7 @@
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
      * [User verwalten](user.md)
   1. Indexes 
-     * [Indexes](indexes.md)
+     * [Indexes](indexes/index.md)
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
