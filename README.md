@@ -4,6 +4,7 @@
 
   1. Performance - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
+     * [CPU oder io-Last klären](top-cpu-io-load.md)
      * [Storage Engines](storage-engines.md) 
      * [InnoDB - Struktur](/innodb/innodb-structure.md)
      * [InnoDB - Optimierung](/innodb/innodb.md) 
