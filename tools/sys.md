@@ -1,5 +1,16 @@
 # Sys-Schema 
 
+## Install under mariadb 10.x 
+
+```
+apt install git
+cd /usr/src 
+git clone https://github.com/FromDual/mariadb-sys.git
+cd mariadb-sys 
+mysql < ./sys_10.sql
+
+```
+
 ## Examples 
 
 ```
