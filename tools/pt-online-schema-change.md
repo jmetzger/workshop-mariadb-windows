@@ -4,6 +4,10 @@
 
   * Install percona-toolkit 
 
+## Documentation 
+
+  * https://www.percona.com/doc/percona-toolkit/3.0/pt-online-schema-change.html
+
 ## What does it do ?
 
 ```
