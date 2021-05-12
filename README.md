@@ -49,11 +49,7 @@
   
   1. Diagnosis and measurement of performance 
      * [Best practices to narrow down performance problems](performance/best-practice-analyze.md
-     
-  1. Performance and optimization of SQL statements 
-     * [Be aware of subselects - Example 1](/performance/subselects-1.md)
-    
-    
+        
      
   1. Optimal use of indexes
      
