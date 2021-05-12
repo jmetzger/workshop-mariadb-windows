@@ -24,7 +24,7 @@
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
      * [Indexes](indexes/index.md)
      * [profiling-get-time-for-execution-of.query](/indexes/profiling.md)
-     * [Kein function in where verwenden](no-function-in-where.md)
+     * [Kein function in where verwenden](/performance/no-function-in-where.md)
      * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
      * [Query-Plans aka Explains](performance/query-plans.md)
      * [Query Pläne und die Key-Länge](query-plans-explain-keylen.md)
