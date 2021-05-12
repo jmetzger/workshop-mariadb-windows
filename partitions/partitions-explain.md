@@ -37,6 +37,20 @@ ALTER TABLE audit_log2 REORGANIZE PARTITION p_current INTO (
 EXPLAIN PARTITIONS SELECT * from audit_log2 WHERE yr = 2012;
 
 ```
+## Eine bestehende große Tabelle partitionieren (mariadb) 
+
+```
+Variante 1:
+# Wichtig vorher Daten sichern 
+
+ALTER TABLE `audit_log3` PARTITION BY RANGE (`yr`) ( PARTITION p2009 VALUES LESS THAN (2010) ENGINE=InnoDB, PARTITION p2010 VALUES LESS THAN (2011) ENGINE=InnoDB, PARTITION p2011 VALUES LESS THAN (2012) ENGINE=InnoDB, PARTITION p2012 VALUES LESS THAN (2013) ENGINE=InnoDB, PARTITION p_current VALUES LESS THAN MAXVALUE ENGINE=InnoDB )
+
+Variante 2:
+Daten ausspielen ohne create (dump)  + evtl zur sicherheit Struktur-Dump 
+Tabelle löschen 
+Daten ohne Struktur einspielen 
+```
+
 ## Ref:
 
   * https://mariadb.com/kb/en/partition-maintenance/
