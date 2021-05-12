@@ -21,7 +21,7 @@
      * [systemctl/jorunalctl - Server starten,stoppen/Logs](systemctl-journalctl.md) 
      * [User verwalten](user.md)
   1. Performance und Optimierung von SQL-Statements 
-     * [Explain verwenden](/index/explain.md)
+     * [Explain verwenden](/indexes/explain.md)
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
      * [Indexes](indexes/index.md)
      * [profiling-get-time-for-execution-of.query](/indexes/profiling.md)
