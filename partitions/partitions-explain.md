@@ -27,13 +27,13 @@ CREATE TABLE audit_log2 (   yr    YEAR NOT NULL,   msg   VARCHAR(100) NOT NULL) 
 INSERT INTO audit_log2(yr,msg) VALUES (2005,'2005'),(2006,'2006'),(2011,'2011'),(2012,'2012');
 
 EXPLAIN PARTITIONS SELECT * from audit_log2 WHERE yr = 2012; 
-# on 2013-01-01 Reorganize 
+
 ALTER TABLE audit_log2 REORGANIZE PARTITION p_current INTO ( 
    PARTITION p2012 VALUES LESS THAN (2013),
    PARTITION p_current VALUES LESS THAN MAXVALUE);
 )
 
-# Where is data now saved 
+--  Where is data now saved 
 EXPLAIN PARTITIONS SELECT * from audit_log2 WHERE yr = 2012;
 
 ```
