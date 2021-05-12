@@ -43,8 +43,10 @@
   1. Managing big tables 
      * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
   1. Replication
-     * Replikation mit GTID :: https://www.admin-magazin.de/Das-Heft/2017/02/MySQL-Replikation-mit-GTIDs
-     * Replikation Read/Write - Split: https://proxysql.com/blog/configure-read-write-split/
+     * [Replikation mit GTID](https://www.admin-magazin.de/Das-Heft/2017/02/MySQL-Replikation-mit-GTIDs)
+     * [Replikation Read/Write - Split: ](https://proxysql.com/blog/configure-read-write-split/)
+  1. Fragen und Antworten 
+     * [Fragen und Antworten](q-and-a.md)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
@@ -56,14 +58,12 @@
         
      
   1. Optimal use of indexes
-     
+    
      * Index-Types 
        * [Describe and indexes](/indexes/describe-table.md)
        * [Find out indexes](indexes/findout-indexes.md) 
-
      
    1. Performance 
      * [Best Practices](/performance/best-practices.md)
         
-   1. [Questions and Answers](q-and-a.md)
    
