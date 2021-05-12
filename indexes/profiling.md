@@ -6,7 +6,7 @@
 
 ```
 set profiling = 1 
-# Step 2 - Execute query 
+-- Step 2 - Execute query 
 select last_name as gross from donors where last_name like lower('WILLI%')  
 
 # Step 3 - Show profiles 
