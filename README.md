@@ -24,7 +24,8 @@
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
      * [Indexes](indexes/index.md)
      * [profiling-get-time-for-execution-of.query](/indexes/profiling.md)
-     *  
+     * [Kein function in where verwenden](no-function-in-where.md)
+     * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
@@ -49,9 +50,8 @@
      
   1. Performance and optimization of SQL statements 
      * [Be aware of subselects - Example 1](/performance/subselects-1.md)
-     * SELECT- and JOIN-TYPES 
     
-     * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
+    
      
   1. Optimal use of indexes
      
