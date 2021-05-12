@@ -18,3 +18,7 @@
   1. [Vorbereitung Ausgabe Slow Log für die Analyse](slow-query-log.md)
   1. [Installation percona-toolkit](tools/percona-toolkit.md)
   1. [Analyse slow-log-file mit pt-query-digest](tools/pt-query-digest.md)
+
+## Extra: Der Ausweg bei großen Tabellen 
+
+  1. Falls es keine andere LÖsung gibt, könnte u.U. Partitionierung helfen. [Hier](partitions/partitions-explain.md)
