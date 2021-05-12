@@ -26,6 +26,8 @@
      * [profiling-get-time-for-execution-of.query](/indexes/profiling.md)
      * [Kein function in where verwenden](no-function-in-where.md)
      * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
+     * [Query-Plans aka Explains](performance/query-plans.md)
+     * 
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
