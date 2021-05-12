@@ -23,6 +23,8 @@
   1. Performance und Optimierung von SQL-Statements 
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
      * [Indexes](indexes/index.md)
+     * [profiling-get-time-for-execution-of.query](/indexes/profiling.md)
+     *  
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
@@ -30,6 +32,7 @@
      * [Example sys-schema and Reference](/tools/sys.md)
   1. Beispieldaten
      * [Verleihdatenbank - sakila](sakila.md)
+     * [Setup training data "contributions"](/indexes/setup-training-data-contributions.md)
   1. Managing big tables 
      * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
   1. Replication
@@ -51,19 +54,18 @@
      * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
      
   1. Optimal use of indexes
-     * [Setup training data "contributions"](/indexes/setup-training-data-contributions.md)
+     
      * Index-Types 
        * [Describe and indexes](/indexes/describe-table.md)
        * [Find out indexes](indexes/findout-indexes.md) 
      * [Index and Functions (Cool new feature in MySQL 5.7)](index-and-functions.md) 
      * [Index and Likes](/indexes/like-index-not-index.md)
     
-     * [profiling-get-time-for-execution-of.query](/indexes/profiling.md) 
+
      * [Find out cardinality without index](/indexes/cardinality.md)
          
   1. Performance 
      * [Best Practices](/performance/best-practices.md)
-     * [Example sys-schema and Reference](/tools/sys.md)
      * [Optimizer-Hints](performance/optimizer-hints.md) 
         
    
