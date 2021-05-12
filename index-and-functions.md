@@ -20,6 +20,21 @@ alter table sakila add idx_last_name_upper varchar(45) GENERATED ALWAYS AS upper
 create index idx_last_name_upper on actor (last_name_upper);
 ```
 
+## Workaround with persistent/virtual columns (MariaDB) 
+
+```
+mysql> alter table actor add column last_name_upper varchar(45) as (upper(last_name)) PERSISTENT ; 
+mysql> insert into actor (first_name,last_name,last_name_upper) values ('Max','Mustermann','MUSTERMANN');
+mysql> select * from actor order by actor_id desc limit 1;
+mysql> -- setting index
+mysql> create index idx_last_name_upper on actor (last_name_upper);
+Query OK, 0 rows affected (0.007 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+mysql> -- to use index we need to avoid the function in where 
+mysql> explain select * from actor where last_name_upper like 'WI%' \G
+
+```
+
 ## Now we try to search the very same 
 
 ```
@@ -33,9 +48,3 @@ explain select * from actor where last_name_upper like 'A%';
 
 ```
 
-
-
-
-## Preview MysQL 8 
-
-  * MySQL 8 support functional indexes 
