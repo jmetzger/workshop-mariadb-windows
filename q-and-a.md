@@ -20,7 +20,7 @@ https://stackoverflow.com/questions/48569979/mariadb-table-defragmentation-using
 
 ```
 # Optimize table 
-ALTER TABLE contributions engine = InnoDB 
+ALTER TABLE contributions engine = InnoDB  # Das gleiche wie OPTIMIZE TABLE 
 
 
 # mariadb has a patch for defragmentation  
