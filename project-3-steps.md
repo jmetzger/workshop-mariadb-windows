@@ -18,6 +18,12 @@
   1. [Vorbereitung Ausgabe Slow Log für die Analyse](slow-query-log.md)
   1. [Installation percona-toolkit](tools/percona-toolkit.md)
   1. [Analyse slow-log-file mit pt-query-digest](tools/pt-query-digest.md)
+  1. Analyse langsamer Queries mit explain und Index setzen 
+     * [Explain inkl. JSON-Format](indexes/explain.md)
+     * [Index setzten - Teil 1](indexes/index.md)
+     * [Index und Joins](indexes/join-index.md)
+     * [Function in Wheres vermeiden](performance/no-function-in-where.md)
+     * [Workaround für Funktionen - Virtual Column](main/index-and-functions.md)
 
 ## Extra: Der Ausweg bei großen Tabellen 
 
