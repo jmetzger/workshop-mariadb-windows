@@ -1,11 +1,11 @@
 # Sys-Schema 
 
-## Install under mariadb 10.x 
+## Install under mariadb 10.5 
 
 ```
 apt install git
 cd /usr/src 
-git clone https://github.com/FromDual/mariadb-sys.git
+git clone https://github.com/jmetzger/mariadb-sys.git
 cd mariadb-sys 
 mysql < ./sys_10.sql
 
