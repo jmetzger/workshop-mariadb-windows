@@ -39,6 +39,21 @@ set session log_slow_verbosity = 'query_plan,explain'
 log-slow-rate-limit=5;
 ```
 
+## Best - Practice - Phase 1 
+
+```
+# Alle Logs analysieren, die kein Index verwendet 
+#/etc/mysql/mariadb.conf.d/50-server.cnf 
+# unter [mysqld]
+
+# slow query log 
+slow-query-log
+log-queries-not-using-indexes
+log-slow-rate-limit=5
+log-slow-verbosity = 'query_plan,explain'
+```
+
+
 ## Ref: 
 
  * https://mariadb.com/kb/en/slow-query-log-overview/
