@@ -11,6 +11,7 @@
 ## Schritt 2: Konfiguration 
 
   1. [Optimierung des InnoDB Buffers (Größe)](innodb/innodb.md) 
+  1. [innodb_flush_log_at_trx_commit](innodb/innodb.md) auf 0 setzen (jede Sekunde statt bei jedem Commit) 
 
 
 
