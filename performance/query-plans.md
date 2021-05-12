@@ -84,6 +84,6 @@ mysql> show warnings;
 | Note  | 1003 | /* select#1 */ select '262611' AS `contribution_id` from `contributions`.`contributions` where 1 |
 +-------+------+--------------------------------------------------------------------------------------------------+
 1 row in set (0.00 sec)
-
+```
 
 
