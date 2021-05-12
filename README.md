@@ -30,7 +30,7 @@
      * [Query-Plans aka Explains](performance/query-plans.md)
      * [Query Pläne und die Key-Länge](query-plans-explain-keylen.md)
      * [Index und Likes](indexes/like-index-not-index.md)
-     * [Index und Joings](indexes/join-index.md)
+     * [Index und Joins](indexes/join-index.md)
      * [Find out cardinality without index](/indexes/cardinality.md)
      * [Index and Functions](index-and-functions.md) 
   1. Tools 
