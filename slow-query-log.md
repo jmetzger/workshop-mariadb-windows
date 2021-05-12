@@ -32,7 +32,12 @@ set session log_slow_verbosity = 'query_plan,explain'
 
 ```
 
+## Die Anzahl der Ausgabe reduzieren (nur jedes 5.) 
 
+```
+## /etc/mysql/mariadb-conf.d/50-server.cnf und mysqld 
+log-slow-rate-limit=5;
+```
 
 ## Ref: 
 
