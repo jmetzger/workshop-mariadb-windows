@@ -28,6 +28,8 @@
      * [Optimizer-hints (and why you should not use them)](performance/optimizer-hints.md)
      * [Query-Plans aka Explains](performance/query-plans.md)
      * [Query Pläne und die Key-Länge](query-plans-explain-keylen.md)
+     * [Index und Likes](indexes/like-index-not-index.md)
+     * [Find out cardinality without index](/indexes/cardinality.md)
   1. Tools 
      * [Percona Toolkit](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
@@ -57,17 +59,9 @@
        * [Describe and indexes](/indexes/describe-table.md)
        * [Find out indexes](indexes/findout-indexes.md) 
      * [Index and Functions (Cool new feature in MySQL 5.7)](index-and-functions.md) 
-     * [Index and Likes](/indexes/like-index-not-index.md)
-    
-
-     * [Find out cardinality without index](/indexes/cardinality.md)
-         
-  1. Performance 
+     
+   1. Performance 
      * [Best Practices](/performance/best-practices.md)
-     * [Optimizer-Hints](performance/optimizer-hints.md) 
         
-   
    1. [Questions and Answers](q-and-a.md)
-    
-   1. [mysql-do-nots](/performance/mysql-do-nots.md)
    
