@@ -1,37 +1,14 @@
 # Questions and answers.
 
-## 1. Do you recommend Aurora
 
-```
-In my current humble opinion Aurora is a double edged sword.
-Aurora looks promising for scalablity, but a lot of stuff is modified
-mysql-stuff and in my opinion has a lot of restrictions.
-
-You should be aware, that moving to Aurora might be a tasks
-and reverting back even more.
-```
-
-   * Refer to: https://ahmedahamid.com/aurora-mysql/
-
-I would like to point you to a performance measurement report here:
-
-   * https://galeracluster.com/2019/09/everdata-reports-galera-cluster-outshines-amazon-aurora-and-rds/
-
-## 2. Get rid of unattended - upgrades problem (dirty hack) 
-
-```
-ps aux | grep unatt
-kill <process-id-von-unattended-upgrades>
-```
-
-## 3. Archive Data 
+## 1. Archive Data 
 
 ```
 
 https://www.percona.com/doc/percona-toolkit/LATEST/pt-archiver.html
 ```
 
-## 4. Does innodb do defragmentation by itself ?
+## 2. Does innodb do defragmentation by itself ?
 
 ```
 # Some background while doing research.
@@ -39,7 +16,7 @@ https://www.percona.com/doc/percona-toolkit/LATEST/pt-archiver.html
 https://stackoverflow.com/questions/48569979/mariadb-table-defragmentation-using-optimize
 ```
 
-## 5. Defragmentation 
+## 3. Defragmentation 
 
 ```
 # Optimize table 
@@ -56,19 +33,13 @@ https://mariadb.org/defragmenting-unused-space-on-innodb-tablespace/
 
 ```
 
-## 6. Is it possible to do select, update, deletes without using innodb_buffer in specific 
+## 4. Is it possible to do select, update, deletes without using innodb_buffer in specific 
 
 ```
 No, this is not possible 
 ```
 
-## 7. Unit test framework in MySQL 
-
-```
-No, there is no testing framework with MySQL 
-```
-
-## 8. MariaDB
+## 8. MariaDB (Features/Vorteile)
 
   * flashback 
   * Verschlüsselung von Tabellen // mariabackup 
