@@ -1521,7 +1521,7 @@ No, this is not possible
 
 ### Extra: Der Ausweg bei großen Tabellen 
 
-  1. Falls es keine andere Lösung gibt, könnte u.U. Partitionierung helfen. [Hier](/partitions/partitions-explain.md)
+  1. Falls es keine andere Lösung gibt, könnte u.U. Partitionierung helfen. [Hier](#using-partitions---walkthrough)
 
 <div class="page-break"></div>
 
