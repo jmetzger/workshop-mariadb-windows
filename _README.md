@@ -608,8 +608,8 @@ mysql>show grants for training@192.168.2.2. // genaue Kombination muss angegeben
 
 ## Eigentlich nicht notwendig, aber geht 
 mysql>select * from mysql.global_priv \G #  das geht nur im mysql-client und zeigt Spalten in Zeilen an
-mysql>select * from mysql.user; 
-```
+mysql>select * from mysql.user;
+``` 
 
 <div class="page-break"></div>
 
@@ -1504,20 +1504,20 @@ No, this is not possible
 
 ### Schritt 2: Konfiguration 
 
-  1. [Optimierung des InnoDB Buffers (Größe)](innodb/innodb.md) 
-  1. [innodb_flush_log_at_trx_commit](innodb/innodb.md) auf 0 setzen (jede Sekunde statt bei jedem Commit) 
+  1. [Optimierung des InnoDB Buffers - Größe](#innodb---optimierung) 
+  1. [innodb_flush_log_at_trx_commit](#innodb---optimierung) auf 0 setzen (jede Sekunde statt bei jedem Commit) 
 
 ### Schritt 3: Optimierung der Anfragen 
 
-  1. [Vorbereitung Ausgabe Slow Log für die Analyse](slow-query-log.md)
-  1. [Installation percona-toolkit](tools/percona-toolkit.md)
-  1. [Analyse slow-log-file mit pt-query-digest](tools/pt-query-digest.md)
+  1. [Vorbereitung Ausgabe Slow Log für die Analyse](#slow-query-log)
+  1. [Installation percona-toolkit](#percona-toolkit)
+  1. [Analyse slow-log-file mit pt-query-digest](#pt-query-digest---analyze-slow-logs)
   1. Analyse langsamer Queries mit explain und Index setzen 
-     * [Explain inkl. JSON-Format](indexes/explain.md)
-     * [Index setzten - Teil 1](indexes/index.md)
-     * [Index und Joins](indexes/join-index.md)
-     * [Function in Wheres vermeiden](performance/no-function-in-where.md)
-     * [Workaround für Funktionen - Virtual Column](main/index-and-functions.md)
+     * [Explain inkl. JSON-Format](#explain-verwenden)
+     * [Index setzten - Teil 1](#indexes)
+     * [Index und Joins](#index-und-joins)
+     * [Function in Wheres vermeiden](#kein-function-in-where-verwenden)
+     * [Workaround für Funktionen - Virtual Column](#index-and-functions)
 
 ### Extra: Der Ausweg bei großen Tabellen 
 

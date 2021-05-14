@@ -19,5 +19,5 @@ mysql>show grants for training@192.168.2.2. // genaue Kombination muss angegeben
 
 # Eigentlich nicht notwendig, aber geht 
 mysql>select * from mysql.global_priv \G #  das geht nur im mysql-client und zeigt Spalten in Zeilen an
-mysql>select * from mysql.user; 
-```
+mysql>select * from mysql.user;
+``` 
