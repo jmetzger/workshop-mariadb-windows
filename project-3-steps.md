@@ -10,7 +10,7 @@
 
 ## Schritt 2: Konfiguration 
 
-  1. [Optimierung des InnoDB Buffers (Größe)](innodb/innodb.md) 
+  1. [Optimierung des InnoDB Buffers - Größe](innodb/innodb.md) 
   1. [innodb_flush_log_at_trx_commit](innodb/innodb.md) auf 0 setzen (jede Sekunde statt bei jedem Commit) 
 
 ## Schritt 3: Optimierung der Anfragen 
@@ -23,7 +23,7 @@
      * [Index setzten - Teil 1](indexes/index.md)
      * [Index und Joins](indexes/join-index.md)
      * [Function in Wheres vermeiden](performance/no-function-in-where.md)
-     * [Workaround für Funktionen - Virtual Column](main/index-and-functions.md)
+     * [Workaround für Funktionen - Virtual Column](index-and-functions.md)
 
 ## Extra: Der Ausweg bei großen Tabellen 
 
