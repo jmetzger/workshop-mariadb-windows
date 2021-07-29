@@ -35,6 +35,9 @@ mysql> explain select * from actor where last_name_upper like 'WI%' \G
 
 ```
 
+## Reference: 
+  * https://dev.mysql.com/doc/refman/5.6/en/innodb-online-ddl.html
+
 ## Now we try to search the very same 
 
 ```
