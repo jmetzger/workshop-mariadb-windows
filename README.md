@@ -21,10 +21,9 @@
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
      * [User verwalten](user.md)
-  1. Backund und Restore
+  1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)  
-  
   1. Performance und Optimierung von SQL-Statements 
      * [Explain verwenden](/indexes/explain.md)
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
