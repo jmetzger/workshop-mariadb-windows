@@ -3,8 +3,8 @@
 ## Agenda 
 
   1. Grundsätzliches
-    * [Historie MySQL/MariaDB](historie-mysql-mariadb.md)
-    * [MySQL vs. MariaDB](mysql-vs-mariadb.md)
+     * [Historie MySQL/MariaDB](historie-mysql-mariadb.md)
+     * [MySQL vs. MariaDB](mysql-vs-mariadb.md)
 
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
