@@ -1,4 +1,4 @@
-# MariaDB Performance Training (deutsch)   
+# Workshop MariaDB Windows 
 
 ## Agenda 
 
@@ -14,8 +14,6 @@
      * [InnoDB - Optimierung](/innodb/innodb.md) 
      * [Query - Cache](/performance/query-cache.md)
      * [3-Phasen-Datengröße](3-phases-of-data-size-and-performance-impact.md)
-  1. Installation
-     * [Installation (Debian)](installation-debian.md)
   1. Konfiguration 
      * [Slow query log](slow-query-log.md) 
   1. Administration 
