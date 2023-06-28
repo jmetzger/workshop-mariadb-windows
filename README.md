@@ -23,7 +23,7 @@
      * [User verwalten](user.md)
   1. Backund und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
-  
+     * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)  
   
   1. Performance und Optimierung von SQL-Statements 
      * [Explain verwenden](/indexes/explain.md)
