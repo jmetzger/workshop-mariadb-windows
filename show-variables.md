@@ -1,8 +1,8 @@
 # Server System Variablen anzeigen (show variables) 
 
 ```
-show variables 
-show global variables 
+show variables;
+show global variables; 
 show variables like 'innodb%';
 show global variables like 'innodb%';
 ```
