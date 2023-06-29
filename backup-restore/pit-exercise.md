@@ -46,7 +46,7 @@ move recover.sql C:\Users\vgh-MariaDB\Desktop\recover.sql
 # im backup ordner 
 # In das Backup-Verzeichnis wechseln
 cd C:\Users\vgh-MariaDB\Desktop\
-mysql < all-databases.sql 
+mysql -uroot -p < all-databases.sql 
 
 ```
 
@@ -58,7 +58,7 @@ use sakila; select * from actor;
 
 ```
 # auf der Kommandozeile 
-mysql < recover.sql 
+mysql -uroot -p < recover.sql 
 ```
 
 ```
