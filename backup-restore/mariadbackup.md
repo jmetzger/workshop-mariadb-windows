@@ -30,8 +30,16 @@ mariabackup --target-dir=Backups/20230321 --prepare
 ## Recover Walkhrough  
 
 ```
-1. Dienst mariadb stoppen 
-2. altes Datenverzeichnis move (n) mysql mysql.bkup 
+1. Dienst mariadb stoppen
+```
+
+```
+2. Im Datenverzeichnis - altes Datenverzeichnis verschieben (n) mysql mysql.bkup 
+
+
+```
+
+```
 3. In das Elternverzeichnis von backup wechseln
 cd C:\Users\vgh-MariaDB
 mariabackup --target-dir=Backups/20230321 --copy-back 
