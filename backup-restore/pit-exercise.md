@@ -34,7 +34,8 @@ mysql>use sakila; select * from actor;
 # and create a recover.sql - file (before apply full backup)
 mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
 # in case of multiple binlog like so:
-# mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 mysqld-bin.000096 > recover.sql
+# Alle Binärlogs seit dem letzten Backup 
+# mysqlbinlog -vv --stop-position=857 mysqld-bin.000004 mysqld-bin.000005 > recover.sql
 
 # Step 1: Apply full backup 
 # im backup ordner 
@@ -53,4 +54,8 @@ use sakila; select * from actor;
 mysql < recover.sql 
 ```
 
+```
+-- im mysql-client durch eingeben des Befehls 'mysql'
+-- should be 202
+use sakila; select * from actor;
 ```
