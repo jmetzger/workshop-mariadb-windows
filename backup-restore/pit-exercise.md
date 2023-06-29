@@ -10,6 +10,9 @@ mysqldump -uroot -p --all-databases --single-transaction --gtid --master-data=2 
 mysql>use sakila; 
 mysql>insert into actor (first_name,last_name) values ('john','The Rock');
 mysql>insert into actor (first_name,last_name) values ('johanne','Johannson');
+# Step 2.5
+# Auf welcher Position steht das master - binlog
+mysql>show master status;
 
 # Optional: Step 3: Looking into binary to see this data 
 # im Datenverzeichnis 
@@ -30,7 +33,8 @@ mysql>use sakila; select * from actor;
 # Simple take the last binlog 
 
 # IN THE DATA FOLDER
-# Find the position where the problem occured 
+# Find the position where the problem occured
+mysqlbinlog -vv mysqld-bin.000005  
 # and create a recover.sql - file (before apply full backup)
 mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
 # in case of multiple binlog like so:
