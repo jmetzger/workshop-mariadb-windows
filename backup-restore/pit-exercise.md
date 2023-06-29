@@ -3,8 +3,8 @@
 ## Problem coming up  
 
 ```
-# Step 1 : Create full backup (assuming 24:00 o'clock) 
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > /usr/src/all-databases.sql;
+# Step 1 : Create full backup (assuming 24:00 o'clock) in the backup folder 
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
 
 # Step 2: Working on data 
 mysql>use sakila; 
@@ -29,15 +29,15 @@ mysql>use sakila; select * from actor;
 # find out the last binlog 
 # Simple take the last binlog 
 
-cd /var/lib/mysql
+# IN THE DATA FOLDER
 # Find the position where the problem occured 
 # and create a recover.sql - file (before apply full backup)
-mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > /usr/src/recover.sql
+mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
 # in case of multiple binlog like so:
-# mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 mysqld-bin.000096 > /usr/src/recover.sql
+# mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 mysqld-bin.000096 > recover.sql
 
 # Step 1: Apply full backup 
-cd /usr/src/
+# im backup ordner 
 mysql < all-databases.sql 
 
 ```
