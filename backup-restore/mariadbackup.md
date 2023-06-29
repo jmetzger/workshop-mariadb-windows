@@ -19,7 +19,7 @@ md Backups
 mariabackup -uroot -p<passwort for root> --target-dir=Backups/20230321 --backup 
 ```
 
-### Schritt 2:  
+### Schritt 2:  Prepare durchführen (Änderung für Tablespaces anwenden) 
 
 ```
 # apply ib_logfile0 to tablespaces 
