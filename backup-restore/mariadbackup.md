@@ -43,8 +43,9 @@ rename data data.bkup
 ```
 3. In das Elternverzeichnis von backup wechseln
 cd C:\Users\vgh-MariaDB
-mariabackup --target-dir=Backups/20230321 --copy-back 
-4. Rechte anpassen (NTService\MariaDB) 
+mariabackup --target-dir=Backups/20230321 --copy-back
+3.5 my.ini in data - ordner reinkopieren (aus data.bkup ordner)
+4. Rechte anpassen (NT Service\MariaDB) für den Ordner data -> Vollzugriff 
 5. Dienst mariadb starten
 ```
 
