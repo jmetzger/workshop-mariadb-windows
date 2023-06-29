@@ -23,7 +23,8 @@
      * [User verwalten](user.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
-     * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)  
+     * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)
+     * [PIT Exercise - point in time recovery](backup-restore/pit-exercise.md)
   1. Performance und Optimierung von SQL-Statements
      * [Performance tmp_disk_tables problem](/performance/analyse-status-tmp-tables.md)
      * [Explain verwenden](/indexes/explain.md)
