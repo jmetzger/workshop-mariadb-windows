@@ -51,8 +51,10 @@ mysql -uroot -p < all-databases.sql
 ```
 
 ```
+mysql -uroot -p -e "select * from actor;" sakila
+
 -- im mysql-client durch eingeben des Befehls 'mysql'
--- should be 200 or 202
+-- should be 200 or 202#
 use sakila; select * from actor;
 ```
 
