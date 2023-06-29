@@ -24,7 +24,8 @@
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)  
-  1. Performance und Optimierung von SQL-Statements 
+  1. Performance und Optimierung von SQL-Statements
+     * [Performance tmp_disk_tables problem](/performance/analyse-status-tmp-tables.md)
      * [Explain verwenden](/indexes/explain.md)
      * [Do not use '*' whenever possible](/performance/select-no-star-please.md) 
      * [Indexes](indexes/index.md)
