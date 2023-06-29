@@ -65,7 +65,7 @@ Mi 20. Jan 09:41:55 CET 2021
 
 ```
 # im Sicherungsverzeichnis 
-mysqldump sakila > sakila-all.sql 
-echo "create database mynewdb" | mysql
-mysql mynewdb < sakila-all.sql 
+mysqldump -uroot -p sakila > sakila-all.sql 
+mysql -uroot -p -e "create database mynewdb"
+mysql -uroot -p mynewdb < sakila-all.sql 
 ```
