@@ -16,7 +16,7 @@ cd C:\Users\vgh-MariaDB
 md Backups
 
  # target-dir needs to be empty or not present 
-mariabackup -uroot -p --target-dir=Backups/20230321 --backup 
+mariabackup -uroot -p<passwort for root> --target-dir=Backups/20230321 --backup 
 ```
 
 ### Schritt 2:  
