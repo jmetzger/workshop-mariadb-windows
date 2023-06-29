@@ -6,7 +6,7 @@
 Is done through MSI-Installer for MariaDB-Server
 ```
 
-## Walkthrough (Ubuntu/Debian)
+## Walkthrough (Windows)
 
 ### Schritt 1: Backup erstellen 
 ```
