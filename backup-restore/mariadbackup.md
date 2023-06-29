@@ -34,8 +34,9 @@ mariabackup --target-dir=Backups/20230321 --prepare
 ```
 
 ```
-2. Im Datenverzeichnis - altes Datenverzeichnis verschieben (n) mysql mysql.bkup 
-
+2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
+cd C:\Program Files\MariaDB 10.6\
+rename data data.bkup
 
 ```
 
