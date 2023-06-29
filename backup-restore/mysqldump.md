@@ -64,7 +64,7 @@ Mi 20. Jan 09:41:55 CET 2021
 ## Created new database base on sakila database 
 
 ```
-cd /usr/src
+# im Sicherungsverzeichnis 
 mysqldump sakila > sakila-all.sql 
 echo "create database mynewdb" | mysql
 mysql mynewdb < sakila-all.sql 
