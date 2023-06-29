@@ -12,7 +12,7 @@ mysql>insert into actor (first_name,last_name) values ('john','The Rock');
 mysql>insert into actor (first_name,last_name) values ('johanne','Johannson');
 
 # Optional: Step 3: Looking into binary to see this data 
-cd /var/lib/mysql 
+# im Datenverzeichnis 
 # last binlog 
 mysqlbinlog -vv mariadb-bin.000005
 
