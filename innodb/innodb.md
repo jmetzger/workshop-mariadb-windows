@@ -92,7 +92,8 @@ skip-name-resolve
 ```
 # in mysql client 
 pager more;
-# Determine LSN 
+# Determine LSN from engine innodb status 
+# Log sequence number 21879482
 show engine innodb status \G 
 select sleep(60);
 # Determine LSN 
