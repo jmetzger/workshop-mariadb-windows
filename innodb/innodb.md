@@ -53,7 +53,8 @@ mysql>show variables like 'innodb%buffer%';
 ## innodb_flush_method 
 
 ```
-Ideally O_DIRECT on Linux, but please test it, if it really works well. 
+Ideally O_DIRECT on Linux, but please test it, if it really works well.
+- no changes needed in Windows as we are using unbuffered  
 ```
 
 ## 	innodb_flush_log_at_trx_commit
