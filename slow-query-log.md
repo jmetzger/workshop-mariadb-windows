@@ -1,5 +1,25 @@
 # Slow Query Log
 
+## General 
+
+  * Slow Query logs is activated with slow_query_log either in my.ini or as with set global
+  * But it only triggers when the time is given correctly
+    * Default: 10 (only queries slower than 10 seconds are recorded) 
+
+## Easiest way to activate during runtime 
+
+```
+# in mysql - client
+set global slow_query_log = 1;
+show global variables like '%slow%';
+# session variable 
+show variables like '%slow%';
+
+```
+
+
+
+
 ## Variante 1: Aktivieren (minimum) 
 
 ```
