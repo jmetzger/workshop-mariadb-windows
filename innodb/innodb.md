@@ -5,12 +5,8 @@
   * How much data fits into memory 
   * Free buffers = pages of 16 Kbytes 
   * Free buffer * 16Kbytes = free innodb buffer pool in KByte  
-```
-pager grep -i 'free buffers'
-show engine innodb status \G
-Free buffers       7905
-1 row in set (0.00 sec)
-```
+
+## How to find out ?
 
 ```
 # OR: 
@@ -25,6 +21,14 @@ MariaDB [(none)]> show status like '%free%';
 | Qcache_free_memory            | 1031304 |
 +-------------------------------+---------+
 5 rows in set (0.002 sec)
+```
+
+## show engine innodb status 
+
+```
+# please use command line 
+show engine innodb status \G
+
 ```
 
 ## Overview innodb server variables / settings 
