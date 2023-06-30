@@ -96,12 +96,14 @@ pager more;
 # Log sequence number 21879482
 show engine innodb status \G 
 select sleep(60);
-# Determine LSN 
+# Determine LSN #
+# Log sequence number 22279482
 show engine innodb status \G
 pager;
 ```
 
 ```
+# letzter (2. Wert - 1.Wert) 
 mysql> select (3838334638 - 3836410803) / 1024 / 1024 as MB_per_min;
 +------------+
 | MB_per_min |
