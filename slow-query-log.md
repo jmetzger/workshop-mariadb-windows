@@ -11,9 +11,8 @@
 ```
 # in mysql - client
 set global slow_query_log = 1;
-show global variables like '%slow%';
-# session variable 
 show variables like '%slow%';
+
 
 ```
 
@@ -27,7 +26,7 @@ show variables like '%slow%';
 mysql>set global long_query_time=0.5 # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
 mysql>set session long_query_time=0.5
 mysql>set global slow_query_log=1 
-mysql>set session slow_query_log=1 
+
 ```
 
 ## Logge alles wo kein Index verwendet werden kann (egal) wie langsam oder schnell 
