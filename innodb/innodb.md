@@ -90,11 +90,14 @@ skip-name-resolve
 ## Calculate innodb-log-file-size
 
 ```
+# in mysql client 
+pager more;
 # Determine LSN 
 show engine innodb status \G 
 select sleep(60);
 # Determine LSN 
 show engine innodb status \G
+pager;
 ```
 
 ```
