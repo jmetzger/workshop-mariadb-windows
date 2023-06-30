@@ -12,21 +12,8 @@
 # in mysql - client
 set global slow_query_log = 1;
 show variables like '%slow%';
-
-
-```
-
-
-
-
-## Variante 1: Aktivieren (minimum) 
-
-```
-# auch direkt in 50-server.cnf möglich 
-mysql>set global long_query_time=0.5 # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
-mysql>set session long_query_time=0.5
-mysql>set global slow_query_log=1 
-
+set global long_query_time=0.000001; # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
+set session long_query_time=0.000001;
 ```
 
 ## Logge alles wo kein Index verwendet werden kann (egal) wie langsam oder schnell 
