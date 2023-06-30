@@ -5,6 +5,12 @@
 ```
 # Install strawberry perl 
 https://strawberryperl.com/
+
+# Download pt-query-digest and save with .pl suffix
+https://www.percona.com/get/pt-query-digest
+
+# Referenz
+# http://www.jonathanlevin.co.uk/2012/01/query-digest-on-windows.html
 ```
 
 
