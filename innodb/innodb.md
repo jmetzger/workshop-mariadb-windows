@@ -43,8 +43,7 @@ show engine innodb status \G
 [mysqld]
 innodb-buffer-pool-size=6G
 
-#
-systemctl restart mysql
+# Dienst neu starten 
 
 # 
 mysql
