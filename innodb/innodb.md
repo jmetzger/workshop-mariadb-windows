@@ -38,7 +38,7 @@ show engine innodb status \G
 ## Change innodb_buffer_pool 
 
 ```
-# /etc/mysql/mysql.conf.d/mysqld.cnf 
+# my.ini 
 # 70-80% of memory on dedicated mysql
 [mysqld]
 innodb-buffer-pool-size=6G
@@ -90,10 +90,11 @@ skip-name-resolve
 ## Calculate innodb-log-file-size
 
 ```
-pager grep sequence;
-show engine innodb status; 
+# Determine LSN 
+show engine innodb status \G 
 select sleep(60);
-show engine innodb status;
+# Determine LSN 
+show engine innodb status \G
 ```
 
 ```
