@@ -1,4 +1,12 @@
-# Install percona - toolkit 
+# Install percona - toolkit (only pt-query-digest)
+
+## Walkthrough (Windows) 
+
+```
+# Install strawberry perl 
+https://strawberryperl.com/
+```
+
 
 ## Walkthrough (Ubuntu 20.04) 
 
