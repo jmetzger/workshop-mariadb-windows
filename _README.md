@@ -1,7 +1,11 @@
-# MariaDB Performance Training (deutsch)   
+# Workshop MariaDB Windows 
 
 
 ## Agenda
+  1. Grundsätzliches
+     * [Historie MySQL/MariaDB](#historie-mysqlmariadb)
+     * [MySQL vs. MariaDB](#mysql-vs-mariadb)
+
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](#architektur-server-schritte)
      * [CPU oder io-Last klären](#cpu-oder-io-last-klären)
@@ -10,21 +14,24 @@
      * [InnoDB - Optimierung](#innodb---optimierung)
      * [Query - Cache](#query---cache)
      * [3-Phasen-Datengröße](#3-phasen-datengröße)
-  1. Installation
-     * [Installation (Debian)](#installation-debian)
   1. Konfiguration 
      * [Slow query log](#slow-query-log)
   1. Administration 
      * [Standard storage engine bestimmen](#standard-storage-engine-bestimmen)
      * [Show status](#show-status)
      * [Server System Variablen - show variables](#server-system-variablen---show-variables)
-     * [systemctl/jorunalctl - Server starten,stoppen/Logs](#systemctljorunalctl---server-starten,stoppenlogs)
      * [User verwalten](#user-verwalten)
-  1. Performance und Optimierung von SQL-Statements 
+  1. Backup und Restore
+     * [Wann binlog ?](#wann-binlog-)
+     * [Backup with mysqldump - best practices](#backup-with-mysqldump---best-practices)
+     * [PIT Exercise - point in time recovery](#pit-exercise---point-in-time-recovery)
+     * [Mariabackup](#mariabackup)
+  1. Performance und Optimierung von SQL-Statements
+     * [Performance tmp_disk_tables problem](#performance-tmp_disk_tables-problem)
      * [Explain verwenden](#explain-verwenden)
      * [Do not use '*' whenever possible](#do-not-use-''-whenever-possible)
      * [Indexes](#indexes)
-     * [profiling-get-time-for-execution-of.query](#profiling-get-time-for-execution-of.query)
+     * [profiling-get-time-for-execution-of.query](#profiling-get-time-for-execution-ofquery)
      * [Kein function in where verwenden](#kein-function-in-where-verwenden)
      * [Optimizer-hints (and why you should not use them)](#optimizer-hints-and-why-you-should-not-use-them)
      * [Query-Plans aka Explains](#query-plans-aka-explains)
@@ -59,14 +66,44 @@
 
 <div class="page-break"></div>
 
+## Grundsätzliches
+
+### Historie MySQL/MariaDB
+
+
+### Schaubild 
+
+![image](https://github.com/jmetzger/workshop-mariadb-windows/assets/1933318/ea333cd2-b84f-4286-ae59-8b919f9c3ba2)
+
+### MySQL vs. MariaDB
+
+
+### Was ist gleich ? 
+
+  * Gleiche CodeBasis weil Kopie
+  * gleiche Tools (weitesgehend) 
+
+### Was ist anders (MariaDB)? 
+
+ * Andere Storage Engine sind möglich
+ * physische Onlinebackup ist mit drin in der Community Version (mariabackup)
+   * ein absolutes Muss für grosse Datenbestände (Geschwindigkeit ist wesentlich schneller beim zurückspielen
+ * Langsame Abfragen protokollieren lassen (hier habt ihr in MariaDB noch mehr Ausgabemöglichkeiten)
+
+#### mysql/mariadb
+
+  * datenbank die gerade ausgewählt ist, wird angezeigt im Prompt 
+
+### Was ist anders ? (MySQL) 
+
+ * ab MySQL 8 - die Server Konfiguration während der Laufzeit setzen und persistent ändern
+
 ## Performance / Theorie - Aspekte der MariaDB - Architektur 
 
 ### Architektur Server (Schritte)
 
 
 ![MariaDB Server Architektur](/images/mysql-server-architecture.png)
-
-<div class="page-break"></div>
 
 ### CPU oder io-Last klären
 
@@ -89,10 +126,54 @@ Die Festplatte ist hier der begrenzende Faktor
 sy und wa hoch (wa = waiting, cpu wartet auf das io-subsystem (Festplatte or Storage) 
 ```
 
-<div class="page-break"></div>
-
 ### Storage Engines
 
+
+### Why ?
+
+```
+Let's you choose:
+How your data is stored
+```
+
+### What ?
+
+  * Performance, features and other characteristics you want
+
+### Where ? 
+
+  * Theoretically you can use a different engine for every table 
+  * But: For performance optimization and future, it is better to concentrate on one 
+
+### What do they do ?
+
+  * In charge for: Responsible for storing and retrieving all data stored in MySQL
+  * Each storage engine has its:
+    * Drawbacks and benefits
+  * Server communicates with them through the storage engine API 
+    * this interface hides differences
+    * makes them largely transparent at query layer
+    * api contains a couple of dozen low-level functions e.g. “begin a transaction”, “fetch the row that has this primary key”
+
+### Storage Engine do not ....
+
+  * Storage Engines do not parse SQL
+  * Storage Engines do not communicate with each other
+
+### They simply .....
+
+  * They simply respond to requests from the server
+
+### Which are the most important one ?
+
+  * InnoDB (currently default engine) 
+  * MyISAM/Aria
+  * Memory
+  * CSV
+  * Blackhole (/dev/null)
+  * Archive
+  * Partition
+  * (Federated/FederatedX)
 
 ### In Detail: MyISAM - Storage Engine
 
@@ -116,27 +197,12 @@ sy und wa hoch (wa = waiting, cpu wartet auf das io-subsystem (Festplatte or Sto
 5. multi-versioning
 ```
 
-### Welches sind die wichtigsten ? 
 
-```
-MyISAM/Aria
-InnoDB
-Memory
-CSV 
-Blackhole (/dev/null) 
-Archive 
-FederatedX 
-```
-
-
-<div class="page-break"></div>
 
 ### InnoDB - Struktur
 
 
 ![InnoDB Structure](/images/InnoDB-Structure.jpg)
-
-<div class="page-break"></div>
 
 ### InnoDB - Optimierung
 
@@ -146,12 +212,8 @@ FederatedX
   * How much data fits into memory 
   * Free buffers = pages of 16 Kbytes 
   * Free buffer * 16Kbytes = free innodb buffer pool in KByte  
-```
-pager grep -i 'free buffers'
-show engine innodb status \G
-Free buffers       7905
-1 row in set (0.00 sec)
-```
+
+### How to find out ?
 
 ```
 ## OR: 
@@ -168,6 +230,14 @@ MariaDB [(none)]> show status like '%free%';
 5 rows in set (0.002 sec)
 ```
 
+### show engine innodb status 
+
+```
+## please use command line 
+show engine innodb status \G
+
+```
+
 ### Overview innodb server variables / settings 
 
   * https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html
@@ -175,13 +245,12 @@ MariaDB [(none)]> show status like '%free%';
 ### Change innodb_buffer_pool 
 
 ```
-## /etc/mysql/mysql.conf.d/mysqld.cnf 
+## my.ini 
 ## 70-80% of memory on dedicated mysql
 [mysqld]
 innodb-buffer-pool-size=6G
 
-##
-systemctl restart mysql
+## Dienst neu starten 
 
 ## 
 mysql
@@ -191,7 +260,8 @@ mysql>show variables like 'innodb%buffer%';
 ### innodb_flush_method 
 
 ```
-Ideally O_DIRECT on Linux, but please test it, if it really works well. 
+Ideally O_DIRECT on Linux, but please test it, if it really works well.
+- no changes needed in Windows as we are using unbuffered  
 ```
 
 ### 	innodb_flush_log_at_trx_commit
@@ -225,6 +295,34 @@ skip-name-resolve
   * https://nixcp.com/skip-name-resolve/
 
 
+### Calculate innodb-log-file-size
+
+```
+## in mysql client 
+pager more;
+## Determine LSN from engine innodb status 
+## Log sequence number 21879482
+show engine innodb status \G 
+select sleep(60);
+## Determine LSN #
+## Log sequence number 22279482
+show engine innodb status \G
+pager;
+```
+
+```
+## letzter (2. Wert - 1.Wert) 
+mysql> select (3838334638 - 3836410803) / 1024 / 1024 as MB_per_min;
++------------+
+| MB_per_min |
++------------+
+| 1.83471203 | 
++------------+
+```
+
+  * https://www.percona.com/blog/how-to-calculate-a-good-innodb-log-file-size/
+
+
 ### Ref:
 
   * https://dev.mysql.com/doc/refman/5.7/en/innodb-buffer-pool-resize.html
@@ -237,8 +335,6 @@ skip-name-resolve
 ERROR 1227 (42000): Access denied; you need (at least one of) the PROCESS privilege(s) for this operation
 
 ```
-
-<div class="page-break"></div>
 
 ### Query - Cache
 
@@ -349,8 +445,6 @@ Ich mache ein Lock-file damit du weisst, dass ich gerade
 Dran arbeite.
 ```
 
-<div class="page-break"></div>
-
 ### 3-Phasen-Datengröße
 
 
@@ -393,60 +487,25 @@ Step 2: Lookup data, but a lot lookups needed
 
 
 
-<div class="page-break"></div>
-
-## Installation
-
-### Installation (Debian)
-
-
-### Setup repo and install
-
- * https://downloads.mariadb.org/mariadb/repositories/
-
-```
-### repo 
-sudo apt-update 
-sudo apt-get install software-properties-common dirmngr
-sudo apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc'
-sudo add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirror2.hs-esslingen.de/mariadb/repo/10.5/debian buster main'
-### now update and install 
-sudo apt update
-sudo apt install mariadb-server 
-
-```
-
-### Check if running and enabled 
-
-```
-systemctl status mariadb 
-## enabled, wenn in Zeile 2 mariadb.service;enabled; auftaucht 
-```
-
-
-### Secure installation 
-
-```
-mariadb-secure-installation 
-## OR: if not present before 10.4 
-mysql_secure_installation 
-```
-
-<div class="page-break"></div>
-
 ## Konfiguration 
 
 ### Slow query log
 
 
-### Variante 1: Aktivieren (minimum) 
+### General 
+
+  * Slow Query logs is activated with slow_query_log either in my.ini or as with set global
+  * But it only triggers when the time is given correctly
+    * Default: 10 (only queries slower than 10 seconds are recorded) 
+
+### Easiest way to activate during runtime 
 
 ```
-## auch direkt in 50-server.cnf möglich 
-mysql>set global long_query_time=0.5 # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
-mysql>set session long_query_time=0.5
-mysql>set global slow_query_log=1 
-mysql>set session slow_query_log=1 
+## in mysql - client
+set global slow_query_log = 1;
+show variables like '%slow%';
+set global long_query_time=0.000001; # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
+set session long_query_time=0.000001;
 ```
 
 ### Logge alles wo kein Index verwendet werden kann (egal) wie langsam oder schnell 
@@ -497,8 +556,6 @@ log-slow-verbosity = 'query_plan,explain'
 
  * https://mariadb.com/kb/en/slow-query-log-overview/
 
-<div class="page-break"></div>
-
 ## Administration 
 
 ### Standard storage engine bestimmen
@@ -514,11 +571,9 @@ wird, wird diese verwendet .
 
 (In Datenbanken/Schemas kann man KEINE Storage engine festlegen)
 
-mysql>show variables like 'default_storage_engine'
+mysql>show variables like 'default_storage_engine';
 
 ```
-
-<div class="page-break"></div>
 
 ### Show status
 
@@ -549,14 +604,12 @@ select * from information_schema.global_status;
 select * from information_schema.session_status;
 ```
 
-<div class="page-break"></div>
-
 ### Server System Variablen - show variables
 
 
 ```
-show variables 
-show global variables 
+show variables;
+show global variables; 
 show variables like 'innodb%';
 show global variables like 'innodb%';
 ```
@@ -566,25 +619,6 @@ show global variables like 'innodb%';
 select @@innodb_flush_method 
 ```
 
-
-<div class="page-break"></div>
-
-### systemctl/jorunalctl - Server starten,stoppen/Logs
-
-
-```
-systemctl TAB TAB -> zeigt alle Unterbefehle an
-systemctl status mariadb.service 
-systemctl start mariadb # .service darf man weglassen bei start/status/stop/restart 
-systemctl stop mariadb 
-systemctl restart  mariadb 
-```
-
-```
-journalctl -u mariadb.service  # Zeigt alle Logs an seit dem letzten Serverstart (Debian 10)
-```
-
-<div class="page-break"></div>
 
 ### User verwalten
 
@@ -611,9 +645,236 @@ mysql>select * from mysql.global_priv \G #  das geht nur im mysql-client und zei
 mysql>select * from mysql.user;
 ``` 
 
-<div class="page-break"></div>
+## Backup und Restore
 
-## Performance und Optimierung von SQL-Statements 
+### Wann binlog ?
+
+
+### Auflistung 
+
+ * Replication
+ * Point in Time Recovery 
+
+### Backup with mysqldump - best practices
+
+
+### Dumping (best option) without active binary log 
+
+```
+mysqldump -uroot -p<password-for-root> --all-databases --single-transaction > all-databases
+## if you want to include procedures use --routines 
+## with event - scheduled tasks 
+mysqldump -uroot -p<password-for-root> --all-databases --single-transaction --routines --events > all-databases.sql
+```
+
+### Useful options for PIT 
+
+```
+## —quick not needed, because included in —opt which is enabled by default 
+
+## on local systems using socket, there are no huge benefits concerning --compress
+## when you dump over the network use it for sure 
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > /usr/src/all-databases.sql;
+```
+
+### With PIT_Recovery you can use --delete-master-logs 
+
+  * All logs before flushing will be deleted 
+  
+```
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > /usr/src/all-databases.sql;
+```
+
+### Flush binary logs from mysql 
+
+```
+mysql -e "PURGE BINARY LOGS BEFORE '2013-04-22 09:55:22'";
+
+```
+
+### Version with zipping 
+
+```
+mysqldump —-all-databases —-single-transaction —-gtid —-master-data=2 —-routines 
+--events —-flush-logs --compress | gzip > /usr/src/all-databases.sql.gz  
+```
+
+### Performance Test mysqldump (1.7 Million rows in contributions) 
+
+```
+date; mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --compress > /usr/src/all-databases.sql; date
+Mi 20. Jan 09:40:44 CET 2021
+Mi 20. Jan 09:41:55 CET 2021 
+```
+
+### Seperated sql-structure files and data-txt files including master-data for a specific database 
+
+```
+ # backups needs to be writeable for mysql 
+ mkdir /backups
+ chmod 777 /backups
+ chown mysql:mysql /backups
+ mysqldump --tab=/backups contributions
+ mysqldump --tab=/backups --master-data=2 contributions
+ mysqldump --tab=/backups --master-data=2 contributions > /backups/master-data.tx
+```
+
+### Created new database base on sakila database 
+
+```
+## im Sicherungsverzeichnis 
+mysqldump -uroot -p sakila > sakila-all.sql 
+mysql -uroot -p -e "create database mynewdb"
+mysql -uroot -p mynewdb < sakila-all.sql 
+```
+
+### PIT Exercise - point in time recovery
+
+
+### Problem coming up  
+
+```
+## Step 1 : Create full backup (assuming 24:00 o'clock) in the backup folder 
+mysqldump -uroot -p --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql
+
+## Step 2: Working on data 
+mysql>use sakila; 
+mysql>insert into actor (first_name,last_name) values ('john','The Rock');
+mysql>insert into actor (first_name,last_name) values ('johanne','Johannson');
+## Step 2.5
+## Auf welcher Position steht das master - binlog
+mysql>show master status;
+
+## Optional: Step 3: Looking into binary to see this data 
+## im Datenverzeichnis 
+## last binlog 
+mysqlbinlog -vv mariadb-bin.000005
+
+## Step 4: Some how a guy deletes data 
+mysql>use sakila; delete from actor where actor_id > 200;
+## now only 200 datasets 
+mysql>use sakila; select * from actor;
+
+```
+  
+### Fixing the problem 
+
+```
+## find out the last binlog 
+## Simple take the last binlog 
+
+## IN THE DATA FOLDER
+## Find the position where the problem occured
+mysqlbinlog -vv mysqld-bin.000005  
+## and create a recover.sql - file (before apply full backup)
+mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
+move recover.sql C:\Users\vgh-MariaDB\Desktop\recover.sql
+## in case of multiple binlog like so:
+## Alle Binärlogs seit dem letzten Backup 
+## mysqlbinlog -vv --stop-position=857 mysqld-bin.000004 mysqld-bin.000005 > recover.sql
+
+## Step 1: Apply full backup 
+## im backup ordner 
+## In das Backup-Verzeichnis wechseln
+cd C:\Users\vgh-MariaDB\Desktop\
+mysql -uroot -p < all-databases.sql 
+
+```
+
+```
+mysql -uroot -p -e "select * from actor;" sakila
+
+-- im mysql-client durch eingeben des Befehls 'mysql'
+-- should be 200 or 202#
+use sakila; select * from actor;
+```
+
+```
+## auf der Kommandozeile 
+mysql -uroot -p < recover.sql 
+```
+
+```
+-- im mysql-client durch eingeben des Befehls 'mysql'
+-- should be 202
+use sakila; select * from actor;
+```
+
+### Mariabackup
+
+
+### Installation 
+
+```
+Is done through MSI-Installer for MariaDB-Server
+```
+
+### Backup Walkthrough (Windows)
+
+#### Schritt 1: Backup erstellen 
+```
+## in der cmd.exe
+## Backupfolder
+cd C:\Users\vgh-MariaDB
+md Backups
+
+ # target-dir needs to be empty or not present 
+mariabackup -uroot -p<passwort for root> --target-dir=Backups/20230321 --backup 
+```
+
+#### Schritt 2:  Prepare durchführen (Änderung für Tablespaces anwenden) 
+
+```
+## apply ib_logfile0 to tablespaces 
+## after that ib_logfile0 ->  0 bytes 
+mariabackup --target-dir=Backups/20230321 --prepare 
+```
+
+### Recover Walkhrough  
+
+```
+1. Dienst mariadb stoppen
+```
+
+```
+2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
+cd C:\Program Files\MariaDB 10.6\
+rename data data.bkup
+
+```
+
+```
+3. In das Elternverzeichnis von backup wechseln
+cd C:\Users\vgh-MariaDB
+mariabackup --target-dir=Backups/20230321 --copy-back
+3.5 my.ini in data - ordner reinkopieren (aus data.bkup ordner)
+4. Rechte anpassen (NT Service\MariaDB) für den Ordner data -> Vollzugriff 
+5. Dienst mariadb starten
+```
+
+
+## Performance und Optimierung von SQL-Statements
+
+### Performance tmp_disk_tables problem
+
+
+### Warum ? 
+
+```
+Temporäre Tabellen die auf die Platte geschrieben
+create_tmp_disk_tables sind generell für die Performance schlecht
+```
+
+### Wie kann ich herausfinden, ob das bei mir auf meinem Server der Fall ist ?
+
+```
+show global status like '%Created_tmp_disk_tables%';
+show global status like '%Created_tmp_files%';
+```
+
+### Wie kann ich herausfinde, welche Queries das genau sind ?
+
+  * Information steht bei mariadb im slow_query_log 
 
 ### Explain verwenden
 
@@ -643,8 +904,6 @@ explain partitions select * from actor
 ## Hier gibt es noch zusätzliche Informationen 
 explain format=json select * from actor 
 ```
-
-<div class="page-break"></div>
 
 ### Do not use '*' whenever possible
 
@@ -703,8 +962,6 @@ PAGER set to 'grep 'rows in set''
 ### Ref:
 
   * https://www.oreilly.com/library/view/high-performance-mysql/9780596101718/ch04.html
-
-<div class="page-break"></div>
 
 ### Indexes
 
@@ -799,8 +1056,6 @@ explain select * from actor2 where last_name like 'B%';
 explain select * from actor2 where first_name like 'B%';
 ```
 
-<div class="page-break"></div>
-
 ### profiling-get-time-for-execution-of.query
 
  
@@ -845,8 +1100,6 @@ mysql> show profile for query 1;
 15 rows in set, 1 warning (0.00 sec)
 ```
 
-<div class="page-break"></div>
-
 ### Kein function in where verwenden
 
 
@@ -873,16 +1126,12 @@ select * from donors where upper(last_name) like 'Willia%'
 
 ```
 
-<div class="page-break"></div>
-
 ### Optimizer-hints (and why you should not use them)
 
 
 ### Tell the optimizer what to do and what not to do 
 
   * https://dev.mysql.com/doc/refman/5.7/en/optimizer-hints.html#optimizer-hints-syntax
-
-<div class="page-break"></div>
 
 ### Query-Plans aka Explains
 
@@ -975,8 +1224,6 @@ mysql> show warnings;
 
 
 
-<div class="page-break"></div>
-
 ### Query Pläne und die Key-Länge
 
 ### Index und Likes
@@ -1014,8 +1261,6 @@ select last_name,last_name_reversed from donor where last_name_reversed like rev
 ## Version 2 with pt-online-schema-change 
 
 ```
-
-<div class="page-break"></div>
 
 ### Index und Joins
 
@@ -1088,8 +1333,6 @@ id) where c.date_recieved > '1999-12-01' and c.date_recieved < '2000-07-01' and 
 
 ```
 
-<div class="page-break"></div>
-
 ### Find out cardinality without index
 
 
@@ -1107,8 +1350,6 @@ select count(distinct(vendor_city)) from contributions;
 +------------------------------+
 1 row in set (4.97 sec)
 ```
-
-<div class="page-break"></div>
 
 ### Index and Functions
 
@@ -1148,6 +1389,9 @@ mysql> explain select * from actor where last_name_upper like 'WI%' \G
 
 ```
 
+### Reference: 
+  * https://dev.mysql.com/doc/refman/5.6/en/innodb-online-ddl.html
+
 ### Now we try to search the very same 
 
 ```
@@ -1162,45 +1406,40 @@ explain select * from actor where last_name_upper like 'A%';
 ```
 
 
-<div class="page-break"></div>
-
 ## Tools 
 
 ### Percona Toolkit
 
 
-### Walkthrough (Ubuntu 20.04) 
+### Walkthrough (Windows) 
 
 ```
-## Howto 
-## https://www.percona.com/doc/percona-toolkit/LATEST/installation.html
+## 1. Install strawberry perl 
+https://strawberryperl.com/
 
-## Step 1: repo installieren mit deb -paket 
-wget https://repo.percona.com/apt/percona-release_latest.focal_all.deb
-apt update 
-apt install -y curl 
-dpkg -i percona-release_latest.focal_all.deb
-apt update
-apt install -y percona-toolkit 
-```
+## 2. Download pt-query-digest and save with .pl suffix
+https://www.percona.com/get/pt-query-digest
 
-### Walkthrough (Debian 10) 
+## 3. copy file to bin - folder of mariadb
 
-```
-sudo apt update
-sudo apt install -y wget gnupg2 lsb-release curl
-cd /usr/src 
-wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb
-dpkg -i percona-release_latest.generic_all.deb
-apt update
-apt install -y percona-toolkit 
+## 4. Open mariadb Command Prompt
+## Navigate to data - dir
+
+## 5. as Admin: Execute once to get right connection to perl
+pt-query-digest.pl <name of slow query log > analyse.txt
+
+## 6. once more  5.
+pt-query-digest.pl <name of slow query log > analyse.txt
+
+## 7. Digest analyse.txt and be happy or not ;o)
+
+## Referenz
+## http://www.jonathanlevin.co.uk/2012/01/query-digest-on-windows.html
 ```
 
 ```
 sudo apt update; sudo apt install -y wget gnupg2 lsb-release curl; cd /usr/src; wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb; dpkg -i percona-release_latest.generic_all.deb; apt update; apt install -y percona-toolkit 
 ```
-
-<div class="page-break"></div>
 
 ### pt-query-digest - analyze slow logs
 
@@ -1229,8 +1468,6 @@ pt-query-digest mysql-slow.log > /usr/src/report-slow.txt
 less report-slow.txt 
 
 ```
-
-<div class="page-break"></div>
 
 ### pt-online-schema-change howto
 
@@ -1262,8 +1499,6 @@ pt-online-schema-change --alter "ADD INDEX idx_city (city)" --execute D=contribu
  pt-online-schema-change --alter "add column remark varchar(150)" D=sakila,t=actor --alter-foreign-keys-method=auto --execute 
 
 ```
-
-<div class="page-break"></div>
 
 ### Example sys-schema and Reference
 
@@ -1305,8 +1540,6 @@ total_memory_allocated: 0 bytes
   
   
 
-<div class="page-break"></div>
-
 ## Beispieldaten
 
 ### Verleihdatenbank - sakila
@@ -1322,8 +1555,6 @@ mysql < sakila-schema.sql
 mysql < sakila-data.sql 
 
 ```
-
-<div class="page-break"></div>
 
 ### Setup training data "contributions"
 
@@ -1343,8 +1574,6 @@ cd mysql_example;
 ## password=<your_root_pw> 
 ./setup.sh 
 ```
-
-<div class="page-break"></div>
 
 ## Managing big tables 
 
@@ -1405,8 +1634,6 @@ Daten ohne Struktur einspielen
 ### Ref:
 
   * https://mariadb.com/kb/en/partition-maintenance/
-
-<div class="page-break"></div>
 
 ## Replication
 
@@ -1487,8 +1714,6 @@ No, this is not possible
   ```
 
 
-<div class="page-break"></div>
-
 ## Projektarbeit/-optimierung 
 
 ### Praktisch Umsetzung in 3-Schritten
@@ -1522,8 +1747,6 @@ No, this is not possible
 ### Extra: Der Ausweg bei großen Tabellen 
 
   1. Falls es keine andere Lösung gibt, könnte u.U. Partitionierung helfen. [Hier](#using-partitions---walkthrough)
-
-<div class="page-break"></div>
 
 ## Dokumentation 
 
