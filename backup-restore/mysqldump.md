@@ -3,6 +3,10 @@
 ## Dumping (best option) without active binary log 
 
 ```
+# MariaDB Command Prompt öffnen 
+# im command prompt 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+
 mysqldump -uroot -p<password-for-root> --all-databases --single-transaction > all-databases
 # if you want to include procedures use --routines 
 # with event - scheduled tasks 
