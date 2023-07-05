@@ -9,7 +9,7 @@
 
 # in das Verzeichnis reinwechseln durch kopieren des Pfades
 cd C:\Users\vgh-MariaDB\Desktop\sakila-db
-mysql -uroot -p<dein-root-pw> < sakila-schema.sql 
-mysql -uroot -p<dein-root-pw> < sakila-data.sql 
+mysql -uroot -ppassword < sakila-db\sakila-schema.sql
+mysql -uroot -ppassword < sakila-db\sakila-data.sql
 
 ```
