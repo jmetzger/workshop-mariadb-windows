@@ -6,7 +6,6 @@
      * [Historie MySQL/MariaDB](historie-mysql-mariadb.md)
      * [Aufbau MariaDB](aufbau-mariadb.md)
      * [MySQL vs. MariaDB](mysql-vs-mariadb.md)
-
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
      * [CPU oder io-Last klären](top-cpu-io-load.md)
@@ -21,6 +20,7 @@
      * [Standard storage engine bestimmen](default-storage-engine.md)
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
+     * [Arbeiten mit dem information_schema](working-with-information_schema.md)
      * [User verwalten](user.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
