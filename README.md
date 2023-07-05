@@ -4,6 +4,7 @@
 
   1. Grundsätzliches
      * [Historie MySQL/MariaDB](historie-mysql-mariadb.md)
+     * [Aufbau MariaDB](aufbau-mariadb.md)
      * [MySQL vs. MariaDB](mysql-vs-mariadb.md)
 
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
