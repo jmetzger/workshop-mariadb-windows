@@ -5,9 +5,11 @@
 # von https://dev.mysql.com/doc/index-other.html
 # die zip - Version 
 
+# Auf dem Desktop entpacken
 
-cd sakila-db 
-mysql < sakila-schema.sql 
-mysql < sakila-data.sql 
+# in das Verzeichnis reinwechseln durch kopieren des Pfades
+cd C:\Users\vgh-MariaDB\Desktop\sakila-db
+mysql -uroot -p<dein-root-pw> < sakila-schema.sql 
+mysql -uroot -p<dein-root-pw> < sakila-data.sql 
 
 ```
