@@ -6,5 +6,5 @@ use information_schema;
 show tables;
 select * from global_variables \G
 -- show all buffer vars
-select * from global_variables like variable_name like '%buffer%';
+select * from global_variables where variable_name like '%buffer%';
 ```
