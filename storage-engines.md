@@ -64,7 +64,7 @@ How your data is stored
 1. support hot backups (because of transactions)
 2. transactions are supported
 3. foreign keys are supported
-4. row-level locking
+4. row-level locking (only single lines are locked)
 5. multi-versioning
 ```
 
