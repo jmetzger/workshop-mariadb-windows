@@ -18,6 +18,7 @@
      * [Slow query log](slow-query-log.md) 
   1. Administration 
      * [Standard storage engine bestimmen](default-storage-engine.md)
+     * [Datenbank-Namen performant umbenennen](database-rename.md)
      * [Show status](show-status.md)
      * [Server System Variablen - show variables](show-variables.md)
      * [Arbeiten mit dem information_schema](working-with-information_schema.md)
