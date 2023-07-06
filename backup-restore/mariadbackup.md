@@ -27,7 +27,7 @@ mariabackup -uroot -p<passwort-for-root> --target-dir=Backups/20230321 --backup
 mariabackup --target-dir=Backups/20230321 --prepare 
 ```
 
-## Recover Walkhrough  
+## Schritt 3a: (Variante 1): Recover Walkhrough  
 
 ```
 1. Dienst mariadb stoppen
@@ -49,3 +49,22 @@ mariabackup --target-dir=Backups/20230321 --copy-back
 5. Dienst mariadb starten
 ```
 
+## Schritt 3b: (Variante 2): Recover Walkhrough  
+
+```
+1. Dienst mariadb stoppen
+```
+
+```
+2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
+cd C:\Program Files\MariaDB 10.6\data
+alle Datei in anderen Ordner (z.B. xy) kopierfen (beliebig, so dass der Ordner leer ist
+```
+
+```
+3. In das Elternverzeichnis von backup wechseln
+cd C:\Users\vgh-MariaDB\Desktop
+mariabackup --target-dir=Backups/20230321 --copy-back
+4. my.ini in data - ordner reinkopieren (aus ordner xy )
+5. Dienst mariadb starten
+```
