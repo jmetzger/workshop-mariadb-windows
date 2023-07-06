@@ -1,6 +1,6 @@
 # PIT (Point-In-Time - Recovery - Exercise) 
 
-## Problem coming up  
+## Part 1: Problem coming up  
 
 ```
 # Step 1 : Create full backup (assuming 00:05 (5 minutes past) ) in the backup folder 
@@ -28,7 +28,7 @@ mysql>use sakila; select * from actor;
 
 ```
   
-## Fixing the problem 
+## Part 2: Fixing the problem 
 
 ```
 # find out the last binlog 
