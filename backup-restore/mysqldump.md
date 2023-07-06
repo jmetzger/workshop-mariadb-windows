@@ -70,7 +70,7 @@ Mi 20. Jan 09:41:55 CET 2021
  mysqldump --tab=/backups --master-data=2 contributions > /backups/master-data.tx
 ```
 
-## Created new database base on sakila database 
+## Create new database based on sakila database 
 
 ```
 # im Sicherungsverzeichnis 
