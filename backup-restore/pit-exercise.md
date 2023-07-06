@@ -11,6 +11,7 @@ mysqldump -uroot -p --all-databases --single-transaction --gtid --master-data=2 
 mysql>use sakila; 
 mysql>insert into actor (first_name,last_name) values ('john','The Rock');
 mysql>insert into actor (first_name,last_name) values ('johanne','Johannson');
+mysql>select * from actor;
 # Step 2.5
 # Auf welcher Position steht das master - binlog
 mysql>show master status;
