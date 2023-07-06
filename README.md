@@ -56,6 +56,8 @@
      * [Aufbau Master/Slave - Replication](replication/auf-master-slave.md)
      * [Replikation mit GTID](replication/01-master-slave-gtid.md)
      * [Replikation Read/Write - Split: ](https://proxysql.com/blog/configure-read-write-split/)
+  1. MariaDB (Galera Cluster) - Linux Only !!
+     * [Aufbau Galera Cluster](galera/aufbau-galera.md)
   1. Fragen und Antworten 
      * [Fragen und Antworten](q-and-a.md)
   1. Projektarbeit/-optimierung 
