@@ -58,7 +58,7 @@ move recover.sql C:\Users\vgh-MariaDB\Desktop\Backups\recover.sql
 # Step 1: Apply full backup 
 # Command Prompt (mariadb) aufrufen 
 # In das Backup-Verzeichnis wechseln
-cd C:\Users\vgh-MariaDB\Desktop\
+cd C:\Users\vgh-MariaDB\Desktop\Backups\
 mysql -uroot -p < all-databases.sql 
 
 ```
