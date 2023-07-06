@@ -77,7 +77,7 @@ innodb_flush_neighbors=0
 
 ```
 
-## skip-name-resolv.conf 
+## skip-name-resolv 
 
 ```
 # work only with ip's - better for performance 
