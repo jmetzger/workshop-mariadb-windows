@@ -45,6 +45,7 @@ cd C:\Program Files\MariaDB 10.6\data
 mysqlbinlog -vv mysqld-bin.000005 
 ```
 
+```
 # and create a recover.sql - file (before apply full backup)
 mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
 move recover.sql C:\Users\vgh-MariaDB\Desktop\recover.sql
