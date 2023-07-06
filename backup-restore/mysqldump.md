@@ -73,7 +73,9 @@ Mi 20. Jan 09:41:55 CET 2021
 ## Create new database based on sakila database 
 
 ```
-# im Sicherungsverzeichnis 
+# Backupverzeichnis
+# Command Prompt in mnariadb
+cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump -uroot -p sakila > sakila-all.sql 
 mysql -uroot -p -e "create database mynewdb"
 mysql -uroot -p mynewdb < sakila-all.sql 
