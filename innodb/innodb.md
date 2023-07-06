@@ -91,11 +91,11 @@ skip-name-resolve
 ## Calculate innodb-log-file-size
 
 ```
-# Session 1: LSN abfragen 
-# in mysql client 
+-- Session 1: LSN abfragen 
+-- in mysql client 
 pager more;
-# Determine LSN from engine innodb status 
-# Log sequence number 21879482
+-- Determine LSN from engine innodb status
+--  Log sequence number 21879482
 show engine innodb status \G 
 select sleep(60);
 
