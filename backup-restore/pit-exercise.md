@@ -3,7 +3,8 @@
 ## Problem coming up  
 
 ```
-# Step 1 : Create full backup (assuming 24:00 o'clock) in the backup folder 
+# Step 1 : Create full backup (assuming 00:05 (5 minutes past) ) in the backup folder 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump -uroot -p --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql
 
 # Step 2: Working on data 
