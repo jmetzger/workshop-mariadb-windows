@@ -20,7 +20,7 @@ mysql>show master status;
 # last binlog 
 mysqlbinlog -vv mariadb-bin.000005
 
-# Step 4: Some how a guy deletes data 
+# Step 4: Somehow a guy deletes data 
 mysql>use sakila; delete from actor where actor_id > 200;
 # now only 200 datasets 
 mysql>use sakila; select * from actor;
