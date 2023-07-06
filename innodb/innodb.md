@@ -91,14 +91,30 @@ skip-name-resolve
 ## Calculate innodb-log-file-size
 
 ```
+# Session 1: LSN abfragen 
 # in mysql client 
 pager more;
 # Determine LSN from engine innodb status 
 # Log sequence number 21879482
 show engine innodb status \G 
 select sleep(60);
+
+```
+
+```
+# Session 2: Import ausführen (als Beispiel für es finden Veränderungen stand) 
+# in command prompt (mariadb)
+# ins backup verzeichnis wechseln
+C:\Users\vgh-MariaDB\Desktop\Backups
+# all-databases.sql einspielen 
+mysql -uroot -p<mein password> < all-databases.sql 
+```
+
+```
+# Wieder in Session 1
 # Determine LSN #
 # Log sequence number 22279482
+pager more;
 show engine innodb status \G
 pager;
 ```
