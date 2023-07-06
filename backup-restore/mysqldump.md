@@ -19,8 +19,9 @@ mysqldump -uroot -p<password-for-root> --all-databases --single-transaction --ro
 # —quick not needed, because included in —opt which is enabled by default 
 
 # on local systems using socket, there are no huge benefits concerning --compress
-# when you dump over the network use it for sure 
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > /usr/src/all-databases.sql;
+# when you dump over the network use it for sure
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql;
 ```
 
 ## With PIT_Recovery you can use --delete-master-logs 
@@ -28,7 +29,8 @@ mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines
   * All logs before flushing will be deleted 
   
 ```
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > /usr/src/all-databases.sql;
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
 ```
 
 ## Flush binary logs from mysql 
