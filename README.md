@@ -52,7 +52,7 @@
   1. Managing big tables 
      * [Using Partitions - Walkthrough](partitions/partitions-explain.md)
   1. Replication
-     * [Replikation mit GTID](https://www.admin-magazin.de/Das-Heft/2017/02/MySQL-Replikation-mit-GTIDs)
+     * [Replikation mit GTID](replication/01-master-slave-gtid.md)
      * [Replikation Read/Write - Split: ](https://proxysql.com/blog/configure-read-write-split/)
   1. Fragen und Antworten 
      * [Fragen und Antworten](q-and-a.md)
