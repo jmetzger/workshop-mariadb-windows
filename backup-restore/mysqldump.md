@@ -20,6 +20,8 @@ mysqldump -uroot -p<password-for-root> --all-databases --single-transaction --ro
 
 # on local systems using socket, there are no huge benefits concerning --compress
 # when you dump over the network use it for sure
+
+# MariaDB - Command Prompt öffnen 
 cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql;
 ```
