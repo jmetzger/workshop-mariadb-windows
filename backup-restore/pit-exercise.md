@@ -52,7 +52,9 @@ move recover.sql C:\Users\vgh-MariaDB\Desktop\Backups\recover.sql
 # in case of multiple binlog like so:
 # Alle Binärlogs seit dem letzten Backup 
 # mysqlbinlog -vv --stop-position=857 mysqld-bin.000004 mysqld-bin.000005 > recover.sql
+```
 
+```
 # Step 1: Apply full backup 
 # im backup ordner 
 # In das Backup-Verzeichnis wechseln
