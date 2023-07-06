@@ -23,7 +23,8 @@ mysqldump -uroot -p<password-for-root> --all-databases --single-transaction --ro
 
 # MariaDB - Command Prompt öffnen 
 cd C:\Users\vgh-MariaDB\Desktop\Backups
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql;
+mysqldump -uroot -p<dein-root-pw> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql
+mysqldump --user=root --password=<dein-root-pw> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql
 ```
 
 ## With PIT_Recovery you can use --delete-master-logs 
