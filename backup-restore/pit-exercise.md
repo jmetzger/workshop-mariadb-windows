@@ -32,11 +32,19 @@ mysql>use sakila; select * from actor;
 
 ```
 # find out the last binlog 
-# Simple take the last binlog 
+# Simply take the last binlog 
+```
+
+```
+# In command prompt (mariadb)
+cd C:\Program Files\MariaDB 10.6\data
 
 # IN THE DATA FOLDER
 # Find the position where the problem occured
-mysqlbinlog -vv mysqld-bin.000005  
+# mysqlbinlog -vv mysqld-bin.000005 | more 
+mysqlbinlog -vv mysqld-bin.000005 
+```
+
 # and create a recover.sql - file (before apply full backup)
 mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
 move recover.sql C:\Users\vgh-MariaDB\Desktop\recover.sql
