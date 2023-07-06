@@ -10,10 +10,10 @@ Is done through MSI-Installer for MariaDB-Server
 
 ### Schritt 1: Backup erstellen 
 ```
-# in der cmd.exe
-# Backupfolder
-cd C:\Users\vgh-MariaDB
-md Backups
+# Command Prompt (mariadb)
+# Backupfolder C:\Users\vgh-MariaDB\Desktop\Backups
+# Going to parent folder 
+cd C:\Users\vgh-MariaDB\Desktop\
 
  # target-dir needs to be empty or not present 
 mariabackup -uroot -p<passwort-for-root> --target-dir=Backups/20230321 --backup 
