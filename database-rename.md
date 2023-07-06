@@ -1,6 +1,6 @@
 # Database Rename 
 
-# Walkhtrough 
+# Walkthrough 
 
 ```
 # im mysql - client 
