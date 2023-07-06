@@ -105,7 +105,7 @@ select sleep(60);
 # Session 2: Import ausführen (als Beispiel für es finden Veränderungen stand) 
 # in command prompt (mariadb)
 # ins backup verzeichnis wechseln
-C:\Users\vgh-MariaDB\Desktop\Backups
+cd C:\Users\vgh-MariaDB\Desktop\Backups
 # all-databases.sql einspielen 
 mysql -uroot -p<mein password> < all-databases.sql 
 ```
