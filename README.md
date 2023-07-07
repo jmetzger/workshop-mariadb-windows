@@ -44,7 +44,7 @@
      * [Find out cardinality without index](/indexes/cardinality.md)
      * [Index and Functions](index-and-functions.md) 
   1. Tools 
-     * [Percona Toolkit](/tools/percona-toolkit.md) 
+     * [Percona Toolkit - only pt-query-digest](/tools/percona-toolkit.md) 
      * [pt-query-digest - analyze slow logs](/tools/pt-query-digest.md)
      * [pt-online-schema-change howto](/tools/pt-online-schema-change.md)
      * [Example sys-schema and Reference](/tools/sys.md)
