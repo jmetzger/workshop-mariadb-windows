@@ -6,6 +6,7 @@
      * [Historie MySQL/MariaDB](historie-mysql-mariadb.md)
      * [Aufbau MariaDB](aufbau-mariadb.md)
      * [MySQL vs. MariaDB](mysql-vs-mariadb.md)
+     * [Welche Logs gibt es?](welche-logs.md)
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](performance/mysql-server-architecture.md)
      * [CPU oder io-Last klären](top-cpu-io-load.md)
