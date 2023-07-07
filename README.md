@@ -25,6 +25,7 @@
      * [Arbeiten mit dem information_schema](working-with-information_schema.md)
      * [User verwalten](user.md)
      * [Einstellungsmöglichkeiten für ErrorLogs](https://mariadb.com/kb/en/error-log/)
+     * [Prozesslist von mariadb nutzen](processlist.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)
