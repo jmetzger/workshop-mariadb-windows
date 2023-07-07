@@ -15,10 +15,10 @@ https://www.percona.com/get/pt-query-digest
 # Navigate to data - dir
 
 # 5. as Admin: Execute once to get right connection to perl
-pt-query-digest.pl <name of slow query log > analyse.txt
+pt-query-digest.pl <name-of-slow-query-log> > analyse.txt
 
 # 6. once more  5.
-pt-query-digest.pl <name of slow query log > analyse.txt
+pt-query-digest.pl <name-of-slow-query-log> > analyse.txt
 
 # 7. Digest analyse.txt and be happy or not ;o)
 
