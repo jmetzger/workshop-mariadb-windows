@@ -26,6 +26,4 @@ pt-query-digest.pl <name-of-slow-query-log> > analyse.txt
 # http://www.jonathanlevin.co.uk/2012/01/query-digest-on-windows.html
 ```
 
-```
-sudo apt update; sudo apt install -y wget gnupg2 lsb-release curl; cd /usr/src; wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb; dpkg -i percona-release_latest.generic_all.deb; apt update; apt install -y percona-toolkit 
-```
+
