@@ -4,9 +4,8 @@
 
 ### System 
 
-  * Last auf dem System (top) 
-  * Festplatte (z.B. 85% voll ?) df /var/lib/mysql
-  * Swap (Wenn geswappt wird ist Hopfen und Malz verloren) 
+  * Last auf dem System
+  * Festplatte (z.B. 85% voll ?)
   
 ### Erreichbarkeit 
 
@@ -58,7 +57,7 @@ mysqladmin status
 | Max_used_connections |	Max number of connections at a time since server started. (max_used_connections / max_connections) indicates if you could run out soon of connection slots.|	When connections usage is > 85%. |
 | Aborted_connects |	Number of failed connection attempts. When growing over a period of time either some credentials are wrong or we are being attacked. show status like 'Aborted_connects'	| When aborted connects/min > 3. |
 
-### InnoDB 
+### InnoDB (show status like ...) 
 
 | Metric | Coments | Suggested Alert | 
 | ------------- |:-------------:| -----:|
@@ -74,8 +73,6 @@ mysqladmin status
 | Created_tmp_disk_tables	| Number of temporary tables (typically for joins) stored on slow spinning disks, instead of faster RAM.	| None |
 | (Full table scans) Handler_read%	Number of times the system reads the first row of a table index. (if 0 a table scan is done - because no key was read). Sequential reads might indicate a faulty index.	None
 
-### Track Errors 
+### Track Error 
 
-```
-journalctl -u mariadb | grep -i Error
-```
+  * error_log mariadb 
