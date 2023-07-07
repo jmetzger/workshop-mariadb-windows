@@ -9,10 +9,13 @@
 ## Easiest way to activate during runtime 
 
 ```
-# in mysql - client
+-- in mysql - client
 set global slow_query_log = 1;
+-- not set in session yet
 show variables like '%slow%';
-set global long_query_time=0.000001; # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
+-- activate also for session OR: reconnect with session or new mysql-client session 
+set slow_query_log = 1
+set global long_query_time=0.000001; -- 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
 set session long_query_time=0.000001;
 ```
 
