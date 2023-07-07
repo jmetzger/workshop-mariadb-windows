@@ -14,7 +14,7 @@
      * [InnoDB - Optimierung](/innodb/innodb.md) 
      * [Query - Cache](/performance/query-cache.md)
      * [3-Phasen-Datengröße](3-phases-of-data-size-and-performance-impact.md)
-  1. Konfiguration 
+  1. Performance / Konfiguration 
      * [Slow query log](slow-query-log.md) 
   1. Administration / Logging
      * [Standard storage engine bestimmen](default-storage-engine.md)
