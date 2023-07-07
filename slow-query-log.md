@@ -17,7 +17,15 @@ show variables like '%slow%';
 set slow_query_log = 1
 set global long_query_time=0.000001; -- 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
 set session long_query_time=0.000001;
+
+-- Empfehlung für ein gutes Logging auch das auszugeben
+set global log_slow_verbosity="query_plan,explain";
 ```
+
+```
+
+````
+
 
 ## Logge alles wo kein Index verwendet werden kann (egal) wie langsam oder schnell 
 
