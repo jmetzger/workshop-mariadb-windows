@@ -65,6 +65,8 @@
      * [Fragen und Antworten](q-and-a.md)
   1. Projektarbeit/-optimierung 
      * [Praktisch Umsetzung in 3-Schritten](project-3-steps.md)
+  1. Monitoring
+     * [Was sollten wir monitoren ?](monitoring/monitoring.md)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
