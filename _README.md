@@ -4,8 +4,9 @@
 ## Agenda
   1. Grundsätzliches
      * [Historie MySQL/MariaDB](#historie-mysqlmariadb)
+     * [Aufbau MariaDB](#aufbau-mariadb)
      * [MySQL vs. MariaDB](#mysql-vs-mariadb)
-
+     * [Welche Logs gibt es?](#welche-logs-gibt-es)
   1. Performance / Theorie - Aspekte der MariaDB - Architektur 
      * [Architektur Server (Schritte)](#architektur-server-schritte)
      * [CPU oder io-Last klären](#cpu-oder-io-last-klären)
@@ -14,13 +15,17 @@
      * [InnoDB - Optimierung](#innodb---optimierung)
      * [Query - Cache](#query---cache)
      * [3-Phasen-Datengröße](#3-phasen-datengröße)
-  1. Konfiguration 
+  1. Performance / Konfiguration 
      * [Slow query log](#slow-query-log)
-  1. Administration 
+  1. Administration / Logging
      * [Standard storage engine bestimmen](#standard-storage-engine-bestimmen)
+     * [Datenbank-Namen performant umbenennen](#datenbank-namen-performant-umbenennen)
      * [Show status](#show-status)
      * [Server System Variablen - show variables](#server-system-variablen---show-variables)
+     * [Arbeiten mit dem information_schema](#arbeiten-mit-dem-information_schema)
      * [User verwalten](#user-verwalten)
+     * [Einstellungsmöglichkeiten für ErrorLogs](https://mariadb.com/kb/en/error-log/)
+     * [Prozesslist von mariadb nutzen](#prozesslist-von-mariadb-nutzen)
   1. Backup und Restore
      * [Wann binlog ?](#wann-binlog-)
      * [Backup with mysqldump - best practices](#backup-with-mysqldump---best-practices)
@@ -41,7 +46,7 @@
      * [Find out cardinality without index](#find-out-cardinality-without-index)
      * [Index and Functions](#index-and-functions)
   1. Tools 
-     * [Percona Toolkit](#percona-toolkit)
+     * [Percona Toolkit - only pt-query-digest](#percona-toolkit---only-pt-query-digest)
      * [pt-query-digest - analyze slow logs](#pt-query-digest---analyze-slow-logs)
      * [pt-online-schema-change howto](#pt-online-schema-change-howto)
      * [Example sys-schema and Reference](#example-sys-schema-and-reference)
@@ -51,16 +56,23 @@
   1. Managing big tables 
      * [Using Partitions - Walkthrough](#using-partitions---walkthrough)
   1. Replication
-     * [Replikation mit GTID](https://www.admin-magazin.de/Das-Heft/2017/02/MySQL-Replikation-mit-GTIDs)
+     * [Aufbau Master/Slave - Replication](#aufbau-masterslave---replication)
+     * [Replikation mit GTID](#replikation-mit-gtid)
      * [Replikation Read/Write - Split: ](https://proxysql.com/blog/configure-read-write-split/)
+  1. MariaDB (Galera Cluster) - Linux Only !!
+     * [Aufbau Galera Cluster](#aufbau-galera-cluster)
   1. Fragen und Antworten 
      * [Fragen und Antworten](#fragen-und-antworten)
   1. Projektarbeit/-optimierung 
      * [Praktisch Umsetzung in 3-Schritten](#praktisch-umsetzung-in-3-schritten)
+  1. Monitoring
+     * [Was sollten wir monitoren ?](#was-sollten-wir-monitoren-)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
-        
+     * [MariaDB Downloaden](https://mariadb.org/download/)
+     * [MariaDB - Releases - including long - term releases](https://mariadb.com/kb/en/mariadb-server-release-dates/)
+     * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
      
 
 
@@ -74,6 +86,8 @@
 ### Schaubild 
 
 ![image](https://github.com/jmetzger/workshop-mariadb-windows/assets/1933318/ea333cd2-b84f-4286-ae59-8b919f9c3ba2)
+
+### Aufbau MariaDB
 
 ### MySQL vs. MariaDB
 
@@ -89,14 +103,39 @@
  * physische Onlinebackup ist mit drin in der Community Version (mariabackup)
    * ein absolutes Muss für grosse Datenbestände (Geschwindigkeit ist wesentlich schneller beim zurückspielen
  * Langsame Abfragen protokollieren lassen (hier habt ihr in MariaDB noch mehr Ausgabemöglichkeiten)
+ * Abweichende Datentypen für Json (anders implementiert als in MySQL) 
 
-#### mysql/mariadb
+#### mysql/mariadb - client
 
   * datenbank die gerade ausgewählt ist, wird angezeigt im Prompt 
 
 ### Was ist anders ? (MySQL) 
 
  * ab MySQL 8 - die Server Konfiguration während der Laufzeit setzen und persistent ändern
+ * von Hause aus anderes Cluster-Technologie -> mysql group replication vs. MariaDB -> Galera Cluster
+
+
+### Welche Logs gibt es?
+
+
+### general_log 
+
+  * Alle Anfrage gegen den Server (Abgesetzte SQL-Statements)
+
+### error_log 
+
+   * Protokolliert nicht nur Fehler, sondern den kompletten Startup (auch warning und notes)
+   * Log - Level kann angepasst werden (Standard: 2, in der Regel ausreichend)
+     * log_error_verbosity 
+
+### Ereignisprotokoll (Windows) 
+
+  * Falls ich im error_log keinen ausreichenden Informationen finde, kann ich auch nochmal nachschauen.
+
+### slow_query_log 
+
+  * Langsame Queries die Bedingung long_query_time erfüllen, werden mitgeloggt, wenn eingeschaltet
+    * im Datenverzeichnis unter *-slow - Datei 
 
 ## Performance / Theorie - Aspekte der MariaDB - Architektur 
 
@@ -193,7 +232,7 @@ How your data is stored
 1. support hot backups (because of transactions)
 2. transactions are supported
 3. foreign keys are supported
-4. row-level locking
+4. row-level locking (only single lines are locked)
 5. multi-versioning
 ```
 
@@ -284,7 +323,7 @@ innodb_flush_neighbors=0
 
 ```
 
-### skip-name-resolv.conf 
+### skip-name-resolv 
 
 ```
 ## work only with ip's - better for performance 
@@ -298,14 +337,30 @@ skip-name-resolve
 ### Calculate innodb-log-file-size
 
 ```
-## in mysql client 
+-- Session 1: LSN abfragen 
+-- in mysql client 
 pager more;
-## Determine LSN from engine innodb status 
-## Log sequence number 21879482
+-- Determine LSN from engine innodb status
+--  Log sequence number 21879482
 show engine innodb status \G 
 select sleep(60);
+
+```
+
+```
+## Session 2: Import ausführen (als Beispiel für es finden Veränderungen stand) 
+## in command prompt (mariadb)
+## ins backup verzeichnis wechseln
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+## all-databases.sql einspielen 
+mysql -uroot -p<mein password> < all-databases.sql 
+```
+
+```
+## Wieder in Session 1
 ## Determine LSN #
 ## Log sequence number 22279482
+pager more;
 show engine innodb status \G
 pager;
 ```
@@ -487,7 +542,7 @@ Step 2: Lookup data, but a lot lookups needed
 
 
 
-## Konfiguration 
+## Performance / Konfiguration 
 
 ### Slow query log
 
@@ -501,12 +556,23 @@ Step 2: Lookup data, but a lot lookups needed
 ### Easiest way to activate during runtime 
 
 ```
-## in mysql - client
+-- in mysql - client
 set global slow_query_log = 1;
+-- not set in session yet
 show variables like '%slow%';
-set global long_query_time=0.000001; # 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
+-- activate also for session OR: reconnect with session or new mysql-client session 
+set slow_query_log = 1
+set global long_query_time=0.000001; -- 0,5 Sekunden. Alles was >= 0,5 sekunden dauert, wird geloggt 
 set session long_query_time=0.000001;
+
+-- Empfehlung für ein gutes Logging auch das auszugeben
+set global log_slow_verbosity="query_plan,explain";
 ```
+
+```
+
+````
+
 
 ### Logge alles wo kein Index verwendet werden kann (egal) wie langsam oder schnell 
 
@@ -556,7 +622,7 @@ log-slow-verbosity = 'query_plan,explain'
 
  * https://mariadb.com/kb/en/slow-query-log-overview/
 
-## Administration 
+## Administration / Logging
 
 ### Standard storage engine bestimmen
 
@@ -574,6 +640,27 @@ wird, wird diese verwendet .
 mysql>show variables like 'default_storage_engine';
 
 ```
+
+### Datenbank-Namen performant umbenennen
+
+
+## Walkthrough 
+
+```
+## im mysql - client 
+create schema sakilanew
+rename table sakila.actor to sakilanew.actor
+
+## Attention, does not work views
+## You have to dump and import views
+## DOES NOT WORK BECAUSE OF VIEW
+rename table sakila.actor_info to sakilanew.actor_info
+
+## Also if there are triggers on a table it does not also not work.
+## Eventually Delete triggers and set them again 
+rename table sakila.film to sakilanew.film;
+ERROR 1435 (HY000): Trigger in wrong schema
+``` 
 
 ### Show status
 
@@ -620,6 +707,18 @@ select @@innodb_flush_method
 ```
 
 
+### Arbeiten mit dem information_schema
+
+
+```
+-- im mysql - client
+use information_schema;
+show tables;
+select * from global_variables \G
+-- show all buffer vars
+select * from global_variables where variable_name like '%buffer%';
+```
+
 ### User verwalten
 
 
@@ -645,6 +744,38 @@ mysql>select * from mysql.global_priv \G #  das geht nur im mysql-client und zei
 mysql>select * from mysql.user;
 ``` 
 
+### Einstellungsmöglichkeiten für ErrorLogs
+
+  * https://mariadb.com/kb/en/error-log/
+
+### Prozesslist von mariadb nutzen
+
+
+### Prozesse (Threads) 
+
+### Über show 
+
+```
+show processlist;
+```
+
+### Über information_schema 
+
+```
+select * from information_schema.processlist;
+-- oder
+use information_schema;
+select * from processlist;
+```
+
+### Process beenden
+
+```
+-- kill <thread_id-die-wir-über-die-processliste-sehen>
+-- z.B.
+kill 314 
+```
+
 ## Backup und Restore
 
 ### Wann binlog ?
@@ -661,6 +792,10 @@ mysql>select * from mysql.user;
 ### Dumping (best option) without active binary log 
 
 ```
+## MariaDB Command Prompt öffnen 
+## im command prompt 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+
 mysqldump -uroot -p<password-for-root> --all-databases --single-transaction > all-databases
 ## if you want to include procedures use --routines 
 ## with event - scheduled tasks 
@@ -673,8 +808,12 @@ mysqldump -uroot -p<password-for-root> --all-databases --single-transaction --ro
 ## —quick not needed, because included in —opt which is enabled by default 
 
 ## on local systems using socket, there are no huge benefits concerning --compress
-## when you dump over the network use it for sure 
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > /usr/src/all-databases.sql;
+## when you dump over the network use it for sure
+
+## MariaDB - Command Prompt öffnen 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+mysqldump -uroot -p<dein-root-pw> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql
+mysqldump --user=root --password=<dein-root-pw> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs  > all-databases.sql
 ```
 
 ### With PIT_Recovery you can use --delete-master-logs 
@@ -682,7 +821,8 @@ mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines
   * All logs before flushing will be deleted 
   
 ```
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > /usr/src/all-databases.sql;
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
 ```
 
 ### Flush binary logs from mysql 
@@ -719,10 +859,12 @@ Mi 20. Jan 09:41:55 CET 2021
  mysqldump --tab=/backups --master-data=2 contributions > /backups/master-data.tx
 ```
 
-### Created new database base on sakila database 
+### Create new database based on sakila database 
 
 ```
-## im Sicherungsverzeichnis 
+## Backupverzeichnis
+## Command Prompt in mnariadb
+cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump -uroot -p sakila > sakila-all.sql 
 mysql -uroot -p -e "create database mynewdb"
 mysql -uroot -p mynewdb < sakila-all.sql 
@@ -731,16 +873,18 @@ mysql -uroot -p mynewdb < sakila-all.sql
 ### PIT Exercise - point in time recovery
 
 
-### Problem coming up  
+### Part 1: Problem coming up  
 
 ```
-## Step 1 : Create full backup (assuming 24:00 o'clock) in the backup folder 
+## Step 1 : Create full backup (assuming 00:05 (5 minutes past) ) in the backup folder 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump -uroot -p --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql
 
 ## Step 2: Working on data 
 mysql>use sakila; 
 mysql>insert into actor (first_name,last_name) values ('john','The Rock');
 mysql>insert into actor (first_name,last_name) values ('johanne','Johannson');
+mysql>select * from actor;
 ## Step 2.5
 ## Auf welcher Position steht das master - binlog
 mysql>show master status;
@@ -750,43 +894,51 @@ mysql>show master status;
 ## last binlog 
 mysqlbinlog -vv mariadb-bin.000005
 
-## Step 4: Some how a guy deletes data 
+## Step 4: Somehow a guy deletes data 
 mysql>use sakila; delete from actor where actor_id > 200;
 ## now only 200 datasets 
 mysql>use sakila; select * from actor;
 
 ```
   
-### Fixing the problem 
+### Part 2: Fixing the problem 
 
 ```
 ## find out the last binlog 
-## Simple take the last binlog 
+## Simply take the last binlog 
+```
+
+```
+## In command prompt (mariadb)
+cd C:\Program Files\MariaDB 10.6\data
 
 ## IN THE DATA FOLDER
 ## Find the position where the problem occured
-mysqlbinlog -vv mysqld-bin.000005  
+## mysqlbinlog -vv mysqld-bin.000005 | more 
+mysqlbinlog -vv mysqld-bin.000005 
+```
+
+```
 ## and create a recover.sql - file (before apply full backup)
 mysqlbinlog -vv --stop-position=857 mysqld-bin.000005 > recover.sql
-move recover.sql C:\Users\vgh-MariaDB\Desktop\recover.sql
+move recover.sql C:\Users\vgh-MariaDB\Desktop\Backups\recover.sql
 ## in case of multiple binlog like so:
-## Alle Binärlogs seit dem letzten Backup 
+## Wenn es mehrere binary logs seit dem letzten vollen Backup gab:  
 ## mysqlbinlog -vv --stop-position=857 mysqld-bin.000004 mysqld-bin.000005 > recover.sql
+```
 
+```
 ## Step 1: Apply full backup 
-## im backup ordner 
+## Command Prompt (mariadb) aufrufen 
 ## In das Backup-Verzeichnis wechseln
-cd C:\Users\vgh-MariaDB\Desktop\
+cd C:\Users\vgh-MariaDB\Desktop\Backups\
 mysql -uroot -p < all-databases.sql 
 
 ```
 
 ```
-mysql -uroot -p -e "select * from actor;" sakila
-
--- im mysql-client durch eingeben des Befehls 'mysql'
 -- should be 200 or 202#
-use sakila; select * from actor;
+mysql -uroot -p -e "select * from actor;" sakila
 ```
 
 ```
@@ -813,13 +965,13 @@ Is done through MSI-Installer for MariaDB-Server
 
 #### Schritt 1: Backup erstellen 
 ```
-## in der cmd.exe
-## Backupfolder
-cd C:\Users\vgh-MariaDB
-md Backups
+## Command Prompt (mariadb)
+## Backupfolder C:\Users\vgh-MariaDB\Desktop\Backups
+## Going to parent folder 
+cd C:\Users\vgh-MariaDB\Desktop\
 
  # target-dir needs to be empty or not present 
-mariabackup -uroot -p<passwort for root> --target-dir=Backups/20230321 --backup 
+mariabackup -uroot -p<passwort-for-root> --target-dir=Backups/20230321 --backup 
 ```
 
 #### Schritt 2:  Prepare durchführen (Änderung für Tablespaces anwenden) 
@@ -830,7 +982,7 @@ mariabackup -uroot -p<passwort for root> --target-dir=Backups/20230321 --backup
 mariabackup --target-dir=Backups/20230321 --prepare 
 ```
 
-### Recover Walkhrough  
+### Schritt 3a: (Variante 1): Recover Walkhrough  
 
 ```
 1. Dienst mariadb stoppen
@@ -845,13 +997,32 @@ rename data data.bkup
 
 ```
 3. In das Elternverzeichnis von backup wechseln
-cd C:\Users\vgh-MariaDB
+cd C:\Users\vgh-MariaDB\Desktop
 mariabackup --target-dir=Backups/20230321 --copy-back
 3.5 my.ini in data - ordner reinkopieren (aus data.bkup ordner)
-4. Rechte anpassen (NT Service\MariaDB) für den Ordner data -> Vollzugriff 
+4. Rechte anpassen: Suchpfad ändern auf Server, auf dem ihr seid, dann (NT Service\MariaDB) für den Ordner data -> Vollzugriff 
 5. Dienst mariadb starten
 ```
 
+### Schritt 3b: (Variante 2): Recover Walkhrough  
+
+```
+1. Dienst mariadb stoppen
+```
+
+```
+2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
+cd C:\Program Files\MariaDB 10.6\data
+alle Datei in anderen Ordner (z.B. xy) kopierfen (beliebig, so dass der Ordner leer ist
+```
+
+```
+3. In das Elternverzeichnis von backup wechseln
+cd C:\Users\vgh-MariaDB\Desktop
+mariabackup --target-dir=Backups/20230321 --copy-back
+4. my.ini in data - ordner reinkopieren (aus ordner xy )
+5. Dienst mariadb starten
+```
 
 ## Performance und Optimierung von SQL-Statements
 
@@ -1408,7 +1579,7 @@ explain select * from actor where last_name_upper like 'A%';
 
 ## Tools 
 
-### Percona Toolkit
+### Percona Toolkit - only pt-query-digest
 
 
 ### Walkthrough (Windows) 
@@ -1426,10 +1597,10 @@ https://www.percona.com/get/pt-query-digest
 ## Navigate to data - dir
 
 ## 5. as Admin: Execute once to get right connection to perl
-pt-query-digest.pl <name of slow query log > analyse.txt
+pt-query-digest.pl <name-of-slow-query-log> > analyse.txt
 
 ## 6. once more  5.
-pt-query-digest.pl <name of slow query log > analyse.txt
+pt-query-digest.pl <name-of-slow-query-log> > analyse.txt
 
 ## 7. Digest analyse.txt and be happy or not ;o)
 
@@ -1437,9 +1608,7 @@ pt-query-digest.pl <name of slow query log > analyse.txt
 ## http://www.jonathanlevin.co.uk/2012/01/query-digest-on-windows.html
 ```
 
-```
-sudo apt update; sudo apt install -y wget gnupg2 lsb-release curl; cd /usr/src; wget https://repo.percona.com/apt/percona-release_latest.generic_all.deb; dpkg -i percona-release_latest.generic_all.deb; apt update; apt install -y percona-toolkit 
-```
+
 
 ### pt-query-digest - analyze slow logs
 
@@ -1546,13 +1715,16 @@ total_memory_allocated: 0 bytes
 
 
 ```
-cd /usr/src
-wget https://downloads.mysql.com/docs/sakila-db.tar.gz
-tar xzvf sakila-db.tar.gz
+## Runterladen der Sakila DB
+## von https://dev.mysql.com/doc/index-other.html
+## die zip - Version 
 
-cd sakila-db 
-mysql < sakila-schema.sql 
-mysql < sakila-data.sql 
+## Auf dem Desktop entpacken
+
+## in das Verzeichnis reinwechseln durch kopieren des Pfades
+cd C:\Users\vgh-MariaDB\Desktop\sakila-db
+mysql -uroot -ppassword < sakila-db\sakila-schema.sql
+mysql -uroot -ppassword < sakila-db\sakila-data.sql
 
 ```
 
@@ -1637,13 +1809,146 @@ Daten ohne Struktur einspielen
 
 ## Replication
 
+### Aufbau Master/Slave - Replication
+
 ### Replikation mit GTID
 
-  * https://www.admin-magazin.de/Das-Heft/2017/02/MySQL-Replikation-mit-GTIDs
+
+### Step 0.5a: Installation on ubuntu/debian 
+
+```
+apt update
+apt install mariadb-backup 
+## check if available
+mariabackup --version 
+
+## prepare for mariabackup if you use it with root and with unix_socket 
+/root/.my.cnf 
+[mariabackup]
+user=root
+```
+
+### Step 1: mariabackup on master 
+
+```
+mkdir /backups 
+## target-dir needs to be empty or not present 
+mariabackup --target-dir=/backups/20210121 --backup 
+## apply ib_logfile0 to tablespaces 
+## after that ib_logfile0 ->  0 bytes 
+mariabackup --target-dir=/backups/20210121 --prepare 
+```
+
+### Step 2: Transfer to new slave (from master) 
+
+```
+## root@master:
+rsync -e ssh -avP /backups/20210121 student@10.10.9.144:/home/student/
+```
+
+### Step 3: Setup replication user on master 
+
+```
+## as root@master 
+##mysql>
+CREATE USER repl@'10.10.9.%' IDENTIFIED BY 'password';
+GRANT REPLICATION SLAVE ON *.*  TO 'repl'@'10.10.9.%';
+```
+
+### Step 3a (Optional): Test repl user (connect) from slave 
+
+```
+## as root@slave 
+## you be able to connect to 
+mysql -urepl -p -h10.10.9.110
+## test if grants are o.k. 
+show grants 
+```
+
+### Step 4a: Set server-id on master -> 1 
+
+```
+[mysqld]
+server-id=1
+
+systemctl restart mariadb 
+### 
+```
+
+### Step 4b: Set server-id on slave -> 3 + same config as server 1 + log_slave_update
+
+```
+[mysqld]
+server-id              = 3
+## activate master bin log, if this slave might be a master later 
+log_bin                = /var/log/mysql/mysql-bin.log
+binlog_format = ROW
+log_slave_update = 1 
+
+systemctl restart mariadb 
+### auf dem master config mit rsync rüberschrieben 
+### root@master 
+rsync -e ssh -avP /etc/mysql/mariadb.conf.d/z_uniruhr.cnf kurs@10.10.9.144:/home/kurs/
+```
+
+### Step 5: Restore Data on slave 
+
+```
+systemctl stop mariadb 
+mv /var/lib/mysql /var/lib/mysql.bkup
+mariabackup --target-dir=/home/student/20210121 --copy-back 
+chown -R mysql:mysql /var/lib/mysql 
+systemctl start mariadb
+```
+
+### Step 6: master.txt for change command 
+
+```
+## root@slave
+$ cat xtrabackup_binlog_info
+mariadb-bin.000096 568 0-1-2
+
+SET GLOBAL gtid_slave_pos = "0-1-2";
+## /root/master.txt 
+## get information from master-databases.sql dump 
+CHANGE MASTER TO 
+   MASTER_HOST="192.168.56.102", 
+   MASTER_PORT=3306, 
+   MASTER_USER="repl",  
+   MASTER_PASSWORD="password", 
+   MASTER_USE_GTID=slave_pos;
+
+mysql < master.txt 
+## or: copy paste into mysql> 
+
+## mysql>
+start slave
+
+## in mysql -> show slave status 
+mysql>show slave status 
+## Looking for
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+
+```
+
+
+
+### Walkthrough 
+
+https://mariadb.com/kb/en/setting-up-a-replication-slave-with-mariabackup/
 
 ### Replikation Read/Write - Split: 
 
   * https://proxysql.com/blog/configure-read-write-split/
+
+## MariaDB (Galera Cluster) - Linux Only !!
+
+### Aufbau Galera Cluster
+
+
+![image](https://github.com/jmetzger/workshop-mariadb-windows/assets/1933318/159a0803-682b-4020-83d2-4ae9a82ca388)
+
 
 ## Fragen und Antworten 
 
@@ -1735,7 +2040,7 @@ No, this is not possible
 ### Schritt 3: Optimierung der Anfragen 
 
   1. [Vorbereitung Ausgabe Slow Log für die Analyse](#slow-query-log)
-  1. [Installation percona-toolkit](#percona-toolkit)
+  1. [Installation percona-toolkit](#percona-toolkit---only-pt-query-digest)
   1. [Analyse slow-log-file mit pt-query-digest](#pt-query-digest---analyze-slow-logs)
   1. Analyse langsamer Queries mit explain und Index setzen 
      * [Explain inkl. JSON-Format](#explain-verwenden)
@@ -1748,11 +2053,105 @@ No, this is not possible
 
   1. Falls es keine andere Lösung gibt, könnte u.U. Partitionierung helfen. [Hier](#using-partitions---walkthrough)
 
+## Monitoring
+
+### Was sollten wir monitoren ?
+
+
+### What to monitor 
+
+#### System 
+
+  * Last auf dem System
+  * Festplatte (z.B. 85% voll ?)
+  
+#### Erreichbarkeit 
+
+  * Server per ping erreichen (mysqladmin ping -h ziel-ip) 
+  * Einlogbar ? (myadmin ping -h ziel-ip -u control_user)
+ 
+#### Platte aka IO-Subsystem (iostats)
+
+  * http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf
+
+| --       | --          | -- |
+| ------------- |:-------------:| -----:|
+| Read/Write requests	      | IOPS (Input/Output operations per second) | -- |
+| Average IO wait	| Time that queue operations have to wait for disk access |   -- |
+| Average Read/Write time | Time it takes to finish disk access operations (latency) |  -- |
+| Read/Write bandwidth | Data transfer from and towards your disk | -- |
+
+#### General mysql metrics 
+
+ ```
+ mysql -E -e "select variable_value from information_schema.session_status where variable_name = 'uptime'";
+ 
+ # max connections 
+ MariaDB [(none)]> show status like 'max_used_connections';
++----------------------+-------+
+| Variable_name        | Value |
++----------------------+-------+
+| Max_used_connections | 1     |
++----------------------+-------+
+1 row in set (0.001 sec)
+
+MariaDB [(none)]> show variables like 'max_connections';
++-----------------+-------+
+| Variable_name   | Value |
++-----------------+-------+
+| max_connections | 151   |
++-----------------+-------+
+1 row in set (0.001 sec)
+ 
+mysqladmin status 
+## you will find uptime here in seconds 
+ 
+```
+
+| Metric	| Comments	| Suggested Alert |
+| ------------- |:-------------:| -----:|
+| Uptime	| Seconds since the server was started. We can use this to detect respawns.	 | When uptime is < 180. (seconds)  |
+| Threads_connected	| Number of clients currently connected. If none or too high, something is wrong.	| None |
+| Max_used_connections |	Max number of connections at a time since server started. (max_used_connections / max_connections) indicates if you could run out soon of connection slots.|	When connections usage is > 85%. |
+| Aborted_connects |	Number of failed connection attempts. When growing over a period of time either some credentials are wrong or we are being attacked. show status like 'Aborted_connects'	| When aborted connects/min > 3. |
+
+#### InnoDB (show status like ...) 
+
+| Metric | Coments | Suggested Alert | 
+| ------------- |:-------------:| -----:|
+| Innodb_row_lock_waits	| Number of times InnoDB had to wait before locking a row.	| None |
+| Innodb_buffer_pool_wait_free	| Number of times InnoDB had to wait for memory pages to be flushed. If too high, innodb_buffer_pool_size is too small for current write load.	| None | 
+
+#### Query tracking 
+
+| Metric	| Comments	| Suggested Alert | 
+| ------------- |:-------------:| -----:|
+| Slow_queries	| Number of queries that took more than long_query_time seconds to execute. Slow queries generate excessive disk reads, memory and CPU usage. Check slow_query_log to find them.	| None | 
+| Select_full_join	| Number of full joins needed to answer queries. If too high, improve your indexing or database schema.	| None |
+| Created_tmp_disk_tables	| Number of temporary tables (typically for joins) stored on slow spinning disks, instead of faster RAM.	| None |
+| (Full table scans) Handler_read%	Number of times the system reads the first row of a table index. (if 0 a table scan is done - because no key was read). Sequential reads might indicate a faulty index.	None
+
+#### Track Error 
+
+  * error_log mariadb 
+
 ## Dokumentation 
 
 ### MySQL - Performance - PDF
 
   * http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf
+
+### Effective MySQL
+
+  * https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796
+
+### MariaDB Downloaden
+
+  * https://mariadb.org/download/
+
+### MariaDB - Releases - including long - term releases
+
+  * https://mariadb.com/kb/en/mariadb-server-release-dates/
 
 ### Effective MySQL
 
