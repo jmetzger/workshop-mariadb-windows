@@ -81,7 +81,8 @@ innodb_flush_neighbors=0
 
 ```
 # work only with ip's - better for performance 
-/etc/my.cnf 
+# Linux /etc/my.cnf 
+# Windows my.ini 
 skip-name-resolve
 ```
 
