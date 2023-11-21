@@ -32,6 +32,7 @@
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Arbeiten am binlog](binlog.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)
+     * [Restore from mysql-backup](backup-restore/mysql.md)
      * [PIT Exercise - point in time recovery](backup-restore/pit-exercise.md)
      * [Mariabackup](backup-restore/mariadbackup.md)
   1. Performance und Optimierung von SQL-Statements
