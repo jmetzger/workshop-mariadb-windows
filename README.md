@@ -26,6 +26,8 @@
      * [User verwalten](user.md)
      * [Einstellungsmöglichkeiten für ErrorLogs](https://mariadb.com/kb/en/error-log/)
      * [Prozesslist von mariadb nutzen](processlist.md)
+  1. Administration auf Kommandozeile
+     * [Globale Variablen setzen und Abfragen auf der Kommandozeile](set-global-variable.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)
