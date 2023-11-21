@@ -30,6 +30,7 @@
      * [Globale Variablen setzen und Abfragen auf der Kommandozeile](set-global-variable.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
+     * [Arbeiten am binlog](binlog.md)
      * [Backup with mysqldump - best practices](backup-restore/mysqldump.md)
      * [PIT Exercise - point in time recovery](backup-restore/pit-exercise.md)
      * [Mariabackup](backup-restore/mariadbackup.md)
