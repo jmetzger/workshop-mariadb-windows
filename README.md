@@ -70,7 +70,7 @@
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
-     * [MariaDB Downloaden](https://mariadb.org/download/)
+     * [MariaDB Downloaden](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.16&os=windows&cpu=x86_64&pkg=msi&m=agdsn)
      * [MariaDB - Releases - including long - term releases](https://mariadb.com/kb/en/mariadb-server-release-dates/)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)      
      
