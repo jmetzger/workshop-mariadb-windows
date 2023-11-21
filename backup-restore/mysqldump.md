@@ -33,7 +33,7 @@ mysqldump --user=root --password=<dein-root-pw> --all-databases --single-transac
   
 ```
 cd C:\Users\vgh-MariaDB\Desktop\Backups
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
+mysqldump -uroot -p<your-password-for-root> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
 ```
 
 ## Flush binary logs from mysql 
