@@ -21,7 +21,7 @@ How your data is stored
   * In charge for: Responsible for storing and retrieving all data stored in MySQL
   * Each storage engine has its:
     * Drawbacks and benefits
-  * Server communicates with them through the storage engine API 
+  * Server communicates with them through the **storage engine API** 
     * this interface hides differences
     * makes them largely transparent at query layer
     * api contains a couple of dozen low-level functions e.g. “begin a transaction”, “fetch the row that has this primary key”
