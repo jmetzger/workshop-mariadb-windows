@@ -20,6 +20,8 @@ set session long_query_time=0.000001;
 
 -- Empfehlung für ein gutes Logging auch das auszugeben
 set global log_slow_verbosity="query_plan,explain";
+-- ab version 10.6.15
+set global_log_slow_verbosity="full";
 ```
 
 ```
