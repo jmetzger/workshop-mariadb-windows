@@ -29,7 +29,7 @@
 
 ## 2. Dienst/Server startet nach Aufsetzen nicht 
 
-### Lösung: Entweder Probleme Rechte oder es fehlen Datein 
+### Lösung: Entweder Probleme Rechte oder es fehlen Dateien 
 
   * Analyse 1.1. und 1.2.
 
