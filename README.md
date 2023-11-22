@@ -29,7 +29,8 @@
   1. Administration auf Kommandozeile
      * [Globale Variablen setzen und Abfragen auf der Kommandozeile](set-global-variable.md)
   1. Troubleshooting (Windows)
-     * [Troubleshooting Windows](troubleshooting-windows.md)  
+     * [Troubleshooting Windows](troubleshooting-windows.md)
+     * [Troubleshooting Databases](database-repair.md)
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Arbeiten am binlog](binlog.md)
