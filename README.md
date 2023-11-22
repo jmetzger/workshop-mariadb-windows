@@ -28,6 +28,8 @@
      * [Prozesslist von mariadb nutzen](processlist.md)
   1. Administration auf Kommandozeile
      * [Globale Variablen setzen und Abfragen auf der Kommandozeile](set-global-variable.md)
+  1. Troubleshooting (Windows)
+     * [Troubleshooting Windows](troubleshooting-windows.md)  
   1. Backup und Restore
      * [Wann binlog ?](backups/binlogs-what-for.md)
      * [Arbeiten am binlog](binlog.md)
