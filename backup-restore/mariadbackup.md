@@ -56,6 +56,7 @@ mariabackup --target-dir=Backups/20230321 --copy-back
 ```
 
 ```
+# MariaDB - Command Prompt als Administrator öffnen 
 2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
 cd C:\Program Files\MariaDB 10.6\data
 alle Datei in anderen Ordner (z.B. xy) kopierfen (beliebig, so dass der Ordner leer ist
