@@ -11,7 +11,7 @@ https://www.percona.com/get/pt-query-digest
 
 # 3. copy file to bin - folder of mariadb
 
-# 4. Open mariadb Command Prompt
+# 4. Open mariadb Command Prompt as ADMINISTRATOR 
 # Navigate to data - dir
 
 # 5. as Admin: Execute once to get right connection to perl
