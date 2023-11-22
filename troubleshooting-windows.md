@@ -35,6 +35,9 @@
 
 ## 3. Bestimmte Features funktionieren nicht
 
+  * Fehler im error-log (Analyse 1.2)
+  * Wird entsprechend notwendiges Plugin geladen
+    * show plugins;
 
 ## 4. Verbindung zum Server funktioniert nicht 
 
