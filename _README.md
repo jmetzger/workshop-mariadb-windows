@@ -26,11 +26,24 @@
      * [User verwalten](#user-verwalten)
      * [Einstellungsmöglichkeiten für ErrorLogs](https://mariadb.com/kb/en/error-log/)
      * [Prozesslist von mariadb nutzen](#prozesslist-von-mariadb-nutzen)
+  1. Administration auf Kommandozeile
+     * [Globale Variablen setzen und Abfragen auf der Kommandozeile](#globale-variablen-setzen-und-abfragen-auf-der-kommandozeile)
+  1. Adminstration (weitere Instanzen)
+     * [Weitere db-Instanz erstellen](#weitere-db-instanz-erstellen)
+  
+  
+  1. Troubleshooting (Windows)
+     * [Troubleshooting Windows](#troubleshooting-windows)
+     * [Troubleshooting Databases](#troubleshooting-databases)
   1. Backup und Restore
      * [Wann binlog ?](#wann-binlog-)
+     * [Arbeiten am binlog](#arbeiten-am-binlog)
      * [Backup with mysqldump - best practices](#backup-with-mysqldump---best-practices)
+     * [Restore from mysql-backup](#restore-from-mysql-backup)
      * [PIT Exercise - point in time recovery](#pit-exercise---point-in-time-recovery)
      * [Mariabackup](#mariabackup)
+  1. Joins
+     * [Überblick Joins](#überblick-joins)
   1. Performance und Optimierung von SQL-Statements
      * [Performance tmp_disk_tables problem](#performance-tmp_disk_tables-problem)
      * [Explain verwenden](#explain-verwenden)
@@ -69,9 +82,10 @@
      * [Was sollten wir monitoren ?](#was-sollten-wir-monitoren-)
   1. Dokumentation 
      * [MySQL - Performance - PDF](http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf)
-     * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
-     * [MariaDB Downloaden](https://mariadb.org/download/)
+     * [MariaDB Server System Variables](https://mariadb.com/kb/en/server-system-variables/)
+     * [MariaDB Downloaden](https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.16&os=windows&cpu=x86_64&pkg=msi&m=agdsn)
      * [MariaDB - Releases - including long - term releases](https://mariadb.com/kb/en/mariadb-server-release-dates/)
+     * [MariaDB Upgraden (Windows)](https://mariadb.com/kb/en/upgrading-mariadb-on-windows/)
      * [Effective MySQL](https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796)
      
 
@@ -189,7 +203,7 @@ How your data is stored
   * In charge for: Responsible for storing and retrieving all data stored in MySQL
   * Each storage engine has its:
     * Drawbacks and benefits
-  * Server communicates with them through the storage engine API 
+  * Server communicates with them through the **storage engine API** 
     * this interface hides differences
     * makes them largely transparent at query layer
     * api contains a couple of dozen low-level functions e.g. “begin a transaction”, “fetch the row that has this primary key”
@@ -327,7 +341,8 @@ innodb_flush_neighbors=0
 
 ```
 ## work only with ip's - better for performance 
-/etc/my.cnf 
+## Linux /etc/my.cnf 
+## Windows my.ini 
 skip-name-resolve
 ```
 
@@ -351,7 +366,7 @@ select sleep(60);
 ## Session 2: Import ausführen (als Beispiel für es finden Veränderungen stand) 
 ## in command prompt (mariadb)
 ## ins backup verzeichnis wechseln
-cd C:\Users\vgh-MariaDB\Desktop\Backups
+cd C:\Users\itslab1\Desktop\Backups
 ## all-databases.sql einspielen 
 mysql -uroot -p<mein password> < all-databases.sql 
 ```
@@ -567,6 +582,8 @@ set session long_query_time=0.000001;
 
 -- Empfehlung für ein gutes Logging auch das auszugeben
 set global log_slow_verbosity="query_plan,explain";
+-- ab version 10.6.15
+set global log_slow_verbosity="full";
 ```
 
 ```
@@ -776,6 +793,158 @@ select * from processlist;
 kill 314 
 ```
 
+## Administration auf Kommandozeile
+
+### Globale Variablen setzen und Abfragen auf der Kommandozeile
+
+
+### Find out current value 
+
+```
+## show global variable 
+show global variables like '%automatic_sp%'
+## or // variable_name needs to be in captitals 
+use information_schema
+select * from global_variables where variable_name like '%AUTOMATIC_SP%';
+
+## If you know the exact name 
+select @@global.automatic_sp_privileges;
+select @@GLOBAL.automatic_sp_privileges;
+
+## Find out session variable, if you know exact name
+select @@automatic_sp_privileges;
+
+```
+
+### Set global Variable 
+
+```
+## will be set like so till next restart of mysql server 
+set global automatic_sp_privileges = 0 
+```
+
+### automatic_sp_privileges can only be set globally 
+
+```
+## Refer to: server system variable doku 
+
+## Has same value in global an session scope 
+MariaDB [information_schema]> select @@automatic_sp_privileges; select @@global.automatic_sp_privileges;
++---------------------------+
+| @@automatic_sp_privileges |
++---------------------------+
+|                         0 |
++---------------------------+
+1 row in set (0.000 sec)
+
++----------------------------------+
+| @@global.automatic_sp_privileges |
++----------------------------------+
+|                                0 |
++----------------------------------+
+1 row in set (0.000 sec)
+```
+
+### Reference:
+
+  * https://mariadb.com/kb/en/server-system-variables/#automatic_sp_privileges
+
+## Adminstration (weitere Instanzen)
+
+### Weitere db-Instanz erstellen
+
+
+
+  * https://mariadb.com/kb/en/mysql_install_dbexe/#:~:text=mysql_install_db.exe%20is%20used%20by,pl%20%2C%20and%20mysql_secure_installation.pl%20.
+
+## Troubleshooting (Windows)
+
+### Troubleshooting Windows
+
+
+### Übersicht: Was sind typische Szenarien ? 
+
+  * Server stoppt plötzlich und startet nicht mehr
+    * Dienst will garnicht starten (Windows)
+    * Server fängt an zu starten, bricht aber ab (Error) 
+  * Dienst/Server startet nach Aufsetzen nicht.
+  * Bestimmte Features funktionieren nicht
+  * Verbindung zum Server funktioniert nicht
+
+### 1. Server stoppt plötzlich und startet nicht mehr 
+
+#### 1.1 Dienst will garnicht starten (Windows) 
+
+  * Oftmals deutet dies auf einen Berechtigungsproblem hin
+
+##### Lösung: Was sagt die Ereignisanzeige 
+
+  * Ereignisanzeige -> Windows-Protokolle -> Anwendung (jetzt kann man rechts nach mariadb suchen)
+
+#### 1.2 Server fängt an zu starten, bricht aber ab (Error) 
+
+   * Es ist wichtig, herauszufinden, ob es Fehler im error-log gibt
+
+##### Lösung: Error-log (liegt im Datenverzeichnis mit Endung .err analysieren
+
+   * Hier kann man nach Eintragen mit [Error] schauen.
+
+### 2. Dienst/Server startet nach Aufsetzen nicht 
+
+#### Lösung: Entweder Probleme Rechte oder es fehlen Dateien 
+
+  * Analyse 1.1. und 1.2.
+
+### 3. Bestimmte Features funktionieren nicht
+
+  * Fehler im error-log (Analyse 1.2)
+  * Wird entsprechend notwendiges Plugin geladen
+    * show plugins;
+
+### 4. Verbindung zum Server funktioniert nicht 
+
+#### Lösung 
+  * Analyse Error-log (1.2.)
+  * Es kann z.B. ein Hinweis darauf sein, dass Max-Connections erlaubt.
+
+#### Lösung 2: 
+  * Schrittweises Debuggen:
+    1. Verbindung zum Server und Port möglich ? (z.B. mit telnet oder mit mysqladmin ping
+    1. Falls ich lokal drauf komme: Ist der User richtig eingerichet.(HeidiSQL) 
+    1. Falls ich lokal drauf komme: (Habe ich Berechtigungen zur Datenbank)
+
+### Troubleshooting Databases
+
+
+### Check / Repair 
+
+#### InnoDB 
+
+  * Automatic crash_recovery_mode triggered on startup
+  * Only if you have no backup and nothing else works:
+    * https://mariadb.com/kb/en/innodb-recovery-modes/
+
+#### MyISAM / Aria 
+
+  * https://mariadb.com/kb/en/repair-table/ (online) 
+  * https://mariadb.com/kb/en/aria_chk/ (offline)
+
+### Optimize 
+
+#### InnoDB 
+
+  * Attention: Recreates table -> expensive 
+  * https://mariadb.com/kb/en/optimize-table/
+
+```
+use sakila;
+optimize table actor;
+```
+
+#### Aria 
+
+  * https://mariadb.com/kb/en/optimize-table/
+
 ## Backup und Restore
 
 ### Wann binlog ?
@@ -785,6 +954,28 @@ kill 314
 
  * Replication
  * Point in Time Recovery 
+
+### Arbeiten am binlog
+
+
+### my.ini aktivieren (binlog) 
+
+```
+[mysqld]
+## aktiviert binlog in Datenverzeichnis 
+log-bin
+```
+
+```
+Dienst neu starten
+```
+
+### Position abfragen, wohin als nächstes geschrieben
+
+```
+-- mysql>
+show master status;
+```
 
 ### Backup with mysqldump - best practices
 
@@ -822,7 +1013,7 @@ mysqldump --user=root --password=<dein-root-pw> --all-databases --single-transac
   
 ```
 cd C:\Users\vgh-MariaDB\Desktop\Backups
-mysqldump --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql;
+mysqldump -uroot -p<your-password-for-root> --all-databases --single-transaction --gtid --master-data=2 --routines --events --flush-logs --delete-master-logs > all-databases.sql
 ```
 
 ### Flush binary logs from mysql 
@@ -868,6 +1059,16 @@ cd C:\Users\vgh-MariaDB\Desktop\Backups
 mysqldump -uroot -p sakila > sakila-all.sql 
 mysql -uroot -p -e "create database mynewdb"
 mysql -uroot -p mynewdb < sakila-all.sql 
+```
+
+### Restore from mysql-backup
+
+
+```
+## MariaDB Command Prompt öffnen 
+## im command prompt 
+cd C:\Users\vgh-MariaDB\Desktop\Backups
+mysql -uroot -p<dein-root-pw> < all-databases.sql
 ```
 
 ### PIT Exercise - point in time recovery
@@ -982,7 +1183,7 @@ mariabackup -uroot -p<passwort-for-root> --target-dir=Backups/20230321 --backup
 mariabackup --target-dir=Backups/20230321 --prepare 
 ```
 
-### Schritt 3a: (Variante 1): Recover Walkhrough  
+#### Schritt 3a: (Variante 1): Recover Walkhrough  (bessere Variante)
 
 ```
 1. Dienst mariadb stoppen
@@ -1004,13 +1205,14 @@ mariabackup --target-dir=Backups/20230321 --copy-back
 5. Dienst mariadb starten
 ```
 
-### Schritt 3b: (Variante 2): Recover Walkhrough  
+#### Schritt 3b: (Variante 2): Recover Walkhrough  - schlechtere Variante 
 
 ```
 1. Dienst mariadb stoppen
 ```
 
 ```
+## MariaDB - Command Prompt als Administrator öffnen 
 2. Im Datenverzeichnis - altes Datenverzeichnis verschieben 
 cd C:\Program Files\MariaDB 10.6\data
 alle Datei in anderen Ordner (z.B. xy) kopierfen (beliebig, so dass der Ordner leer ist
@@ -1023,6 +1225,189 @@ mariabackup --target-dir=Backups/20230321 --copy-back
 4. my.ini in data - ordner reinkopieren (aus ordner xy )
 5. Dienst mariadb starten
 ```
+
+## Joins
+
+### Überblick Joins
+
+
+### What is a JOIN for ? 
+
+ * combines rows from two or more tables
+ * based on a related column between them.
+
+### MySQL/MariaDB (Inner) Join 
+
+![Inner Join](/images/img_innerjoin.gif)
+
+### MySQL/MariaDB (Inner) Join (explained) 
+
+  * Inner Join and Join are the same
+  * Returns records that have matching values in both tables
+  * Inner Join, Cross Join and Join 
+    * are the same in MySQL
+ 
+### MySQL/MariaDB Left Join 
+
+![Image Left Join](/images/img_leftjoin.gif)
+
+### MySQL/MariaDB Left (outer) Join (explained) 
+
+  * Return all records from the left table
+  * _AND_ the matched records from the right table
+  * The result is NULL on the right side
+    * if there are no matched columns on the right 
+  * Left Join and Left Outer Join are the same
+
+### MySQL Right Join 
+
+![Image Right Join](/images/img_rightjoin.gif)
+
+### MySQL Right Join (explained)  
+
+  * Return all records from the right table
+    * _AND_ the matched records from the left table
+  * Right Join and Right Outer Join are the same
+
+### MySQL Straight Join 
+
+  * MySQL (inner) Join and Straight Join are the same
+  * **Difference:**
+    * The left column is always read first
+  * **Downside:**
+    * Bad optimization through mysql (query optimizer) 
+  * **Recommendation:**
+    * Avoid straight join if possible 
+    * use join instead 
+  
+### Type of Joins 
+
+  * [inner] join
+    * **inner join** and **join** are the same  
+  * left [outer] join 
+  * right [outer] join
+  * full [outer] join
+  * straight join < equals > join
+  * cross join = join (in mysql)
+  * natural join <= equals => join (but syntax is different)
+
+### In Detail: [INNER] JOIN 
+
+  * Return rows when there 
+    * is a match in both tables 
+  * Example 
+
+```
+SELECT actor.first_name, actor.last_name, film.title FROM film_actor JOIN actor ON film_actor.actor_id = actor.actor_id JOIN film ON film_actor.film_id = film.film_id;
+```
+
+### In Detail: Joining without JOIN - Keyword
+
+  * Explanation: Will have the same query execution plan as [INNER] JOIN
+```
+SELECT actor.first_name, actor.last_name, film.title 
+FROM film_actor,actor,film 
+where film_actor.actor_id = actor.actor_id 
+and film_actor.film_id = film.film_id;
+```
+
+### In Detail: Left Join
+
+  * Return all rows from the left side
+    * even if there is not result on the right side
+  * Example 
+```
+SELECT 
+    c.customer_id, 
+    c.first_name, 
+    c.last_name,
+    a.actor_id,
+    a.first_name,
+    a.last_name
+FROM customer c
+LEFT JOIN actor a 
+ON c.last_name = a.last_name
+ORDER BY c.last_name;
+```
+
+### In Detail: Right Join 
+
+  * Return all rows from the right side
+    * even if there are no results on the left side
+  * Example 
+```
+SELECT 
+    c.customer_id, 
+    c.first_name, 
+    c.last_name,
+    a.actor_id,
+    a.first_name,
+    a.last_name
+FROM customer c
+RIGHT JOIN actor a 
+ON c.last_name = a.last_name
+ORDER BY a.last_name;
+```
+
+### In Detail: Having  
+
+  * Simple: WHERE for GroupBy (because where does not work here)
+  * Example 
+```
+SELECT last_name, COUNT(*) 
+FROM sakila.actor
+GROUP BY last_name
+HAVING count(last_name) > 2
+```
+ 
+### Internal (type of joins)  - NLJ 
+
+  * NLJ - (Nested Loop Join) 
+```
+for each row in t1 matching range {
+  for each row in t2 matching reference key {
+    for each row in t3 {
+      if row satisfies join conditions, send to client
+    }
+  }
+}
+```
+
+### Internal (type of joins) - BNL 
+ 
+  * BNL - (Block Nested Loop) 
+    * in explain: -> using join buffer 
+    * columns of interest to a join are stored in join buffer
+      * --> not whole rows.
+    * join_buffer_size system variable 
+      * -> determines the size of each join buffer used to process a query. 
+  * https://dev.mysql.com/doc/refman/5.7/en/nested-loop-joins.html
+
+### BNL - Who can I see, if it is used ? 
+
+  * Can be seen in explain 
+![Image Proof Nested Loop](/images/proof-nested-loop.png)
+
+```
+
+explain SELECT a.* FROM actor a  INNER JOIN actor b where a.actor_id > 20 and b.actor_id < 20
+
+```
+
+```
+When using a Block Nested-Loop Join, MySQL will, instead of automatically joining t2, 
+insert as many rows from t1 that it can into a join buffer 
+and then scan the appropriate range of t2 once, 
+matching each record in t2 to the join buffer. 
+From here, each matched row is then sent to the next join, 
+which, as previously discussed, may be another table, 
+t3, or, if t2 is the last table in the query, 
+the rows may be sent to the network.
+```
+
+### BNL's - Refs:
+
+  * https://www.burnison.ca/notes/fun-mysql-fact-of-the-day-block-nested-loop-joins
 
 ## Performance und Optimierung von SQL-Statements
 
@@ -1593,7 +1978,7 @@ https://www.percona.com/get/pt-query-digest
 
 ## 3. copy file to bin - folder of mariadb
 
-## 4. Open mariadb Command Prompt
+## 4. Open mariadb Command Prompt as ADMINISTRATOR 
 ## Navigate to data - dir
 
 ## 5. as Admin: Execute once to get right connection to perl
@@ -1810,6 +2195,11 @@ Daten ohne Struktur einspielen
 ## Replication
 
 ### Aufbau Master/Slave - Replication
+
+
+![image](https://github.com/jmetzger/workshop-mariadb-windows/assets/1933318/0d6bd0d4-d139-4d43-a7eb-49669d734e05)
+
+![image](https://github.com/jmetzger/workshop-mariadb-windows/assets/1933318/a5608302-81af-497a-a063-49748510b5ad)
 
 ### Replikation mit GTID
 
@@ -2141,17 +2531,21 @@ mysqladmin status
 
   * http://schulung.t3isp.de/documents/pdfs/mysql/mysql-performance.pdf
 
-### Effective MySQL
+### MariaDB Server System Variables
 
-  * https://www.amazon.com/Effective-MySQL-Optimizing-Statements-Oracle/dp/0071782796
+  * https://mariadb.com/kb/en/server-system-variables/
 
 ### MariaDB Downloaden
 
-  * https://mariadb.org/download/
+  * https://mariadb.org/download/?t=mariadb&p=mariadb&r=10.6.16&os=windows&cpu=x86_64&pkg=msi&m=agdsn
 
 ### MariaDB - Releases - including long - term releases
 
   * https://mariadb.com/kb/en/mariadb-server-release-dates/
+
+### MariaDB Upgraden (Windows)
+
+  * https://mariadb.com/kb/en/upgrading-mariadb-on-windows/
 
 ### Effective MySQL
 
