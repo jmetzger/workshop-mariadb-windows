@@ -38,6 +38,10 @@
      * [Restore from mysql-backup](backup-restore/mysql.md)
      * [PIT Exercise - point in time recovery](backup-restore/pit-exercise.md)
      * [Mariabackup](backup-restore/mariadbackup.md)
+    
+  1. Joins
+     * [Überblick Joins](joins/overview.md)
+  
   1. Performance und Optimierung von SQL-Statements
      * [Performance tmp_disk_tables problem](/performance/analyse-status-tmp-tables.md)
      * [Explain verwenden](/indexes/explain.md)
