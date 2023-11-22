@@ -27,7 +27,7 @@ mariabackup -uroot -p<passwort-for-root> --target-dir=Backups/20230321 --backup
 mariabackup --target-dir=Backups/20230321 --prepare 
 ```
 
-### Schritt 3a: (Variante 1): Recover Walkhrough  
+### Schritt 3a: (Variante 1): Recover Walkhrough  (bessere Variante)
 
 ```
 1. Dienst mariadb stoppen
@@ -49,7 +49,7 @@ mariabackup --target-dir=Backups/20230321 --copy-back
 5. Dienst mariadb starten
 ```
 
-## Schritt 3b: (Variante 2): Recover Walkhrough  
+### Schritt 3b: (Variante 2): Recover Walkhrough  - schlechtere Variante 
 
 ```
 1. Dienst mariadb stoppen
